@@ -6,9 +6,11 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
+import { EXPERIMENTAL_TableFeature } from '@payloadcms/richtext-lexical'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import { Pages } from './collections/Pages'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -20,8 +22,10 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media],
-  editor: lexicalEditor(),
+  collections: [Users, Media, Pages],
+  editor: lexicalEditor({
+    features: ({ defaultFeatures }) => [...defaultFeatures, EXPERIMENTAL_TableFeature()],
+  }),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),

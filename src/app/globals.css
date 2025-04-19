@@ -1,0 +1,13 @@
+@import 'tailwindcss';
+
+.w-container {
+  @apply mx-auto max-w-[1280px] w-[90%];
+}
+
+.py-container {
+  @apply xl:py-24 lg:py-20 md:py-16 py-12;
+}
+
+.pb-container {
+  @apply xl:pb-24 lg:pb-20 md:pb-16 pb-12;
+}
