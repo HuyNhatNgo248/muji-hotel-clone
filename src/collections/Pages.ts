@@ -1,5 +1,7 @@
 import { CollectionConfig } from 'payload'
 
+import DynamicZoneField from './_fields/dynamic-zone-field'
+
 export const Pages: CollectionConfig = {
   slug: 'pages',
   admin: {
@@ -21,5 +23,6 @@ export const Pages: CollectionConfig = {
         position: 'sidebar',
       },
     },
+    DynamicZoneField,
   ],
 }

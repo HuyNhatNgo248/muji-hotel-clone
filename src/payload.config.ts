@@ -38,4 +38,8 @@ export default buildConfig({
     payloadCloudPlugin(),
     // storage-adapter-placeholder
   ],
+  localization: {
+    locales: ['en', 'ja'], // required
+    defaultLocale: 'ja', // required
+  },
 })

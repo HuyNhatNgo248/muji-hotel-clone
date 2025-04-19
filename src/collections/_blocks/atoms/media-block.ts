@@ -13,14 +13,17 @@ const MediaBlock: Block = {
     {
       name: 'caption',
       type: 'text',
+      localized: true,
     },
     {
       name: 'description',
       type: 'text',
+      localized: true,
     },
     {
       name: 'link',
       type: 'text',
+      localized: true,
     },
   ],
 }
