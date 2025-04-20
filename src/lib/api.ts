@@ -1,9 +1,15 @@
 import type { Where, CollectionSlug } from 'payload'
+import type { MujiLocale } from '@/types/index'
 
 import { getPayload } from 'payload'
 import config from '@/payload.config'
 
-export const fetchPage = async (slug: string | null, query?: Where, depth?: number) => {
+export const fetchPage = async (
+  slug: string | null,
+  lang: MujiLocale,
+  query?: Where,
+  depth?: number,
+) => {
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
 
@@ -16,6 +22,7 @@ export const fetchPage = async (slug: string | null, query?: Where, depth?: numb
       },
       ...(query || {}),
     },
+    locale: lang,
   })
 
   if (result.totalDocs === 0) {

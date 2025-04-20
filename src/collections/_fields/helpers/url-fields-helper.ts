@@ -4,6 +4,7 @@ const urlFieldsHelper: Field[] = [
   {
     name: 'url',
     type: 'text',
+    defaultValue: '/',
   },
   {
     name: 'openInNewTab',
