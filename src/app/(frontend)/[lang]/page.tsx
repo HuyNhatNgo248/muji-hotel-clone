@@ -10,8 +10,6 @@ export default async function Page({ params }: Params) {
 
   const page = await fetchPage('/', lang, {}, 5)
 
-  console.log(page)
-
   if (!page) return notFound()
 
   const dynamicZone = page.dynamicZone as DynamicZone
