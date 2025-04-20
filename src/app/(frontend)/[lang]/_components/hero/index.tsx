@@ -27,9 +27,9 @@ const Hero: React.FC<HeroProps> = ({ className, description, layout }) => {
   const banner = layout?.find((item) => item.blockType === 'banner')
 
   const handleScroll = () => {
-    if (!richTextRef.current || !navMenuHeight) return
+    if (!richTextRef.current) return
 
-    const topOffset = navMenuHeight
+    const topOffset = 10
     const richTextPosition = richTextRef.current.offsetTop // Get the top position of the rich text
     const scrollToPosition = richTextPosition - topOffset // Subtract the offset to stop at the desired position
 
@@ -63,7 +63,7 @@ const Hero: React.FC<HeroProps> = ({ className, description, layout }) => {
         >
           {banner && <Banner {...banner} className="text-sm tracking-wide font-semibold" />}
 
-          {logo && <Logo {...logo} variant="lg" orientation="vertical" className="pb-10" />}
+          {logo && <Logo {...logo} variant="lg" orientation="vertical" className="pb-30" />}
 
           <motion.button
             onClick={handleScroll}
