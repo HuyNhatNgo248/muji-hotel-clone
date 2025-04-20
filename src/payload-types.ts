@@ -159,7 +159,7 @@ export interface Page {
   id: string;
   title: string;
   slug: string;
-  dynamicZone?: HeroBlock[] | null;
+  dynamicZone?: (HeroBlock | ServiceIntroBlock)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -269,6 +269,34 @@ export interface ButtonBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServiceIntroBlock".
+ */
+export interface ServiceIntroBlock {
+  title?: string | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  url?: string | null;
+  openInNewTab?: boolean | null;
+  layout?: (MediaBlock | ButtonBlock)[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'service-intro';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -372,6 +400,7 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         hero?: T | HeroBlockSelect<T>;
+        'service-intro'?: T | ServiceIntroBlockSelect<T>;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -451,6 +480,24 @@ export interface ButtonBlockSelect<T extends boolean = true> {
   borderRadius?: T;
   displayAsLink?: T;
   openInNewTab?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServiceIntroBlock_select".
+ */
+export interface ServiceIntroBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  url?: T;
+  openInNewTab?: T;
+  layout?:
+    | T
+    | {
+        media?: T | MediaBlockSelect<T>;
+        Button?: T | ButtonBlockSelect<T>;
+      };
   id?: T;
   blockName?: T;
 }
