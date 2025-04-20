@@ -4,7 +4,7 @@ import { MediaBlock, Media } from '@/payload-types'
 
 import { cn } from '@/lib/utils'
 import { useState, useEffect, useRef } from 'react'
-import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react'
+import { AnimatePresence, motion } from 'motion/react'
 
 interface BackgroundParallaxProps {
   mediaList: MediaBlock[] | null
@@ -19,6 +19,7 @@ const BackgroundParallax: React.FC<BackgroundParallaxProps> = ({
 }) => {
   const [index, setIndex] = useState<number>(0)
   const [isFixed, setIsFixed] = useState<boolean>(true)
+  const [overlayOpacity, setOverlayOpacity] = useState<number>(0) // State for overlay opacity
   const contentRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -37,17 +38,18 @@ const BackgroundParallax: React.FC<BackgroundParallaxProps> = ({
       if (!contentRef.current) return
       const rect = contentRef.current.getBoundingClientRect()
       setIsFixed(rect.bottom > window.innerHeight)
+
+      // Calculate opacity based on scroll position
+      const scrollTop = window.scrollY
+      const windowHeight = window.innerHeight
+      const maxScroll = contentRef.current.offsetHeight - windowHeight
+      const opacity = Math.min(scrollTop / maxScroll, 0.4) // Max opacity of 0.4
+      setOverlayOpacity(opacity)
     }
+
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
-
-  const { scrollYProgress } = useScroll({
-    target: contentRef,
-    offset: ['start start', 'end end'],
-  })
-
-  const overlayOpacity = useTransform(scrollYProgress, [0, 1], [0, 0.4])
 
   const bgImage = (mediaList?.[index]?.media as Media | undefined)?.url
 
@@ -73,13 +75,16 @@ const BackgroundParallax: React.FC<BackgroundParallaxProps> = ({
       </AnimatePresence>
 
       {/* Darkening overlay */}
-      <motion.div
-        style={{ opacity: overlayOpacity }}
+      <div
         className={cn(
           isFixed
             ? 'fixed inset-0 w-full h-screen bg-black pointer-events-none z-10'
             : 'absolute top-auto bottom-0 left-0 w-full h-screen bg-black pointer-events-none z-10',
         )}
+        style={{
+          opacity: overlayOpacity,
+          transition: 'opacity 0.5s ease-in-out', // Smooth transition for overlay
+        }}
       />
 
       {/* Scrollable content */}
