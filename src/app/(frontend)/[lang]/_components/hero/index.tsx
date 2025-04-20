@@ -12,7 +12,7 @@ import { useParams } from 'next/navigation'
 import { LuChevronDown } from 'react-icons/lu'
 import { motion, useInView } from 'motion/react'
 import { useRef, useEffect, useState } from 'react'
-import useDisplayLogoStore from '@/hooks/use-display-logo-store'
+import useDisplayLogoStore from '@/hooks/use-display-logo'
 
 interface HeroProps extends HeroBlock {
   className?: string

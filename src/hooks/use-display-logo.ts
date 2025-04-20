@@ -5,9 +5,9 @@ interface DisplayLogoStore {
   setDisplayLogo: (value: boolean) => void
 }
 
-const useDisplayLogoStore = create<DisplayLogoStore>((set) => ({
+const useDisplayLogo = create<DisplayLogoStore>((set) => ({
   displayLogo: false,
   setDisplayLogo: (value: boolean) => set({ displayLogo: value }),
 }))
 
-export default useDisplayLogoStore
+export default useDisplayLogo

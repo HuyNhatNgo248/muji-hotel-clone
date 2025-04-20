@@ -2,7 +2,7 @@ import { LogoBlock } from '@/payload-types'
 
 import { cn } from '@/lib/utils'
 
-interface LogoProps extends LogoBlock {
+export interface LogoProps extends LogoBlock {
   className?: string
   orientation?: 'horizontal' | 'vertical'
   variant: 'lg' | 'md' | 'sm'

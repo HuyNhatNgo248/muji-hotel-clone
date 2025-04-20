@@ -1,4 +1,5 @@
-import { Page } from '@/payload-types'
+import type { Page } from '@/payload-types'
+import { getDictionary } from '@/app/(frontend)/[lang]/dictionaries'
 
 export type MujiLocale = 'en' | 'ja'
 
@@ -7,3 +8,5 @@ export interface Params {
 }
 
 export type DynamicZone = Page['dynamicZone']
+
+export type Dictionary = Awaited<ReturnType<typeof getDictionary>>

@@ -1,18 +1,21 @@
 'use client'
+import { LogoProps as LogoCompProps } from '@/components/organisms/logo'
 
-import useDisplayLogoStore from '@/hooks/use-display-logo-store'
+import useDisplayLogoStore from '@/hooks/use-display-logo'
 import LogoComp from '@/components/organisms/logo'
 import { motion } from 'motion/react'
 import Link from 'next/link'
 
 interface LogoProps {
   className?: string
+  display?: boolean
+  variant?: LogoCompProps['variant']
 }
 
-const Logo: React.FC<LogoProps> = (props) => {
+const Logo: React.FC<LogoProps> = ({ display = false, variant = 'md', ...props }) => {
   const displayLogo = useDisplayLogoStore((state) => state.displayLogo)
 
-  if (!displayLogo) return null
+  if (!displayLogo && !display) return null
 
   return (
     <motion.div
@@ -26,7 +29,7 @@ const Logo: React.FC<LogoProps> = (props) => {
       <Link href="/">
         <LogoComp
           {...props}
-          variant="md"
+          variant={variant}
           orientation="horizontal"
           companyName="MUJI HOTEL"
           branchName="GINZA"
