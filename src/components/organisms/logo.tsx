@@ -45,8 +45,8 @@ const Logo: React.FC<LogoProps> = ({
       {companyName && (
         <Tag
           className={cn({
-            'text-4xl font-bold': variant === 'sm', // Add shadow
-            'text-5xl font-bold': variant === 'md', // Add larger shadow
+            'text-3xl font-bold': variant === 'sm', // Add shadow
+            'text-4xl font-bold': variant === 'md', // Add larger shadow
             'text-6xl font-bold': variant === 'lg', // Add extra-large shadow
           })}
         >

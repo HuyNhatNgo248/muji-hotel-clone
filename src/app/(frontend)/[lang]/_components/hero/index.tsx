@@ -10,8 +10,9 @@ import Banner from '@/components/organisms/banner'
 import PayloadRichText from '@/components/shared/payload-richtext'
 import { useParams } from 'next/navigation'
 import { LuChevronDown } from 'react-icons/lu'
-import { motion } from 'motion/react'
+import { motion, useInView } from 'motion/react'
 import { useRef, useEffect, useState } from 'react'
+import useDisplayLogoStore from '@/hooks/use-display-logo-store'
 
 interface HeroProps extends HeroBlock {
   className?: string
@@ -20,6 +21,9 @@ interface HeroProps extends HeroBlock {
 const Hero: React.FC<HeroProps> = ({ className, description, layout }) => {
   const params = useParams()
   const richTextRef = useRef<HTMLDivElement>(null)
+  const logoRef = useRef<HTMLDivElement>(null)
+  const setDisplayLogo = useDisplayLogoStore((state) => state.setDisplayLogo)
+  const isLogoInView = useInView(logoRef)
   const [navMenuHeight, setNavMenuHeight] = useState<number>(0)
 
   const mediaList = layout?.find((item) => item.blockType === 'media-list')?.mediaList || null
@@ -54,6 +58,12 @@ const Hero: React.FC<HeroProps> = ({ className, description, layout }) => {
     return () => window.removeEventListener('resize', updateNavMenuHeight)
   }, [])
 
+  useEffect(() => {
+    if (!logoRef.current) return
+
+    setDisplayLogo(!isLogoInView)
+  }, [isLogoInView, setDisplayLogo])
+
   return (
     <>
       <BackgroundParallax mediaList={mediaList} className={cn('text-white', className)}>
@@ -63,7 +73,9 @@ const Hero: React.FC<HeroProps> = ({ className, description, layout }) => {
         >
           {banner && <Banner {...banner} className="text-sm tracking-wide font-semibold" />}
 
-          {logo && <Logo {...logo} variant="lg" orientation="vertical" className="pb-30" />}
+          <div ref={logoRef}>
+            {logo && <Logo {...logo} variant="lg" orientation="vertical" className="pb-30" />}
+          </div>
 
           <motion.button
             onClick={handleScroll}
