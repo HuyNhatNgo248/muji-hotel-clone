@@ -43,7 +43,7 @@ const BackgroundParallax: React.FC<BackgroundParallaxProps> = ({
       const scrollTop = window.scrollY
       const windowHeight = window.innerHeight
       const maxScroll = contentRef.current.offsetHeight - windowHeight
-      const opacity = Math.min(scrollTop / maxScroll, 0.4) // Max opacity of 0.4
+      const opacity = Math.min(scrollTop / maxScroll, 0.5) // Max opacity of 0.4
       setOverlayOpacity(opacity)
     }
 

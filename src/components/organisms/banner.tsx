@@ -13,7 +13,7 @@ const Banner: React.FC<BannerProps> = ({ className, description, url, openInNewT
   const content = <PayloadRichText data={description as SerializedEditorState} />
 
   return (
-    <div className={cn('py-4 w-full flex justify-center items-center bg-black/25', className)}>
+    <div className={cn('py-4 w-full flex justify-center items-center bg-black/30', className)}>
       {url ? (
         <Link href={url} target={openInNewTab ? '_blank' : '_self'}>
           {content}
