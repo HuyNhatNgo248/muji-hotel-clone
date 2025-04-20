@@ -1,0 +1,11 @@
+{
+  "navigation-menu": {
+    "news": "news",
+    "location": "location",
+    "rooms": "rooms",
+    "facilities": "facilities",
+    "contact-us": "contact us",
+    "fine-reservation": "fine reservation",
+    "reservations": "reservations"
+  }
+}

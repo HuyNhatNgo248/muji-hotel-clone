@@ -183,7 +183,7 @@ export interface HeroBlock {
     };
     [k: string]: unknown;
   } | null;
-  layout?: (MediaListBlock | BannerBlock | LogoBlock)[] | null;
+  layout?: (MediaListBlock | BannerBlock | LogoBlock | ButtonBlock)[] | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'hero';
@@ -247,6 +247,25 @@ export interface LogoBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'logo';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ButtonBlock".
+ */
+export interface ButtonBlock {
+  text?: string | null;
+  url: string;
+  iconField?: string | null;
+  variant?: ('contained' | 'outlined' | 'text') | null;
+  /**
+   * Default value is 4px, rounded value is 9999px
+   */
+  borderRadius?: ('none' | 'default' | 'rounded') | null;
+  displayAsLink?: boolean | null;
+  openInNewTab?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'Button';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -369,6 +388,7 @@ export interface HeroBlockSelect<T extends boolean = true> {
         'media-list'?: T | MediaListBlockSelect<T>;
         banner?: T | BannerBlockSelect<T>;
         logo?: T | LogoBlockSelect<T>;
+        Button?: T | ButtonBlockSelect<T>;
       };
   id?: T;
   blockName?: T;
@@ -416,6 +436,21 @@ export interface BannerBlockSelect<T extends boolean = true> {
 export interface LogoBlockSelect<T extends boolean = true> {
   companyName?: T;
   branchName?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ButtonBlock_select".
+ */
+export interface ButtonBlockSelect<T extends boolean = true> {
+  text?: T;
+  url?: T;
+  iconField?: T;
+  variant?: T;
+  borderRadius?: T;
+  displayAsLink?: T;
+  openInNewTab?: T;
   id?: T;
   blockName?: T;
 }
