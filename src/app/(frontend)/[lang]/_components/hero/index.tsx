@@ -9,6 +9,9 @@ import Logo from '@/components/organisms/logo'
 import Banner from '@/components/organisms/banner'
 import PayloadRichText from '@/components/shared/payload-richtext'
 import { useParams } from 'next/navigation'
+import { LuChevronDown } from 'react-icons/lu'
+import { motion } from 'motion/react'
+import { useRef, useEffect, useState } from 'react'
 
 interface HeroProps extends HeroBlock {
   className?: string
@@ -16,23 +19,71 @@ interface HeroProps extends HeroBlock {
 
 const Hero: React.FC<HeroProps> = ({ className, description, layout }) => {
   const params = useParams()
+  const richTextRef = useRef<HTMLDivElement>(null)
+  const [navMenuHeight, setNavMenuHeight] = useState<number>(0)
 
   const mediaList = layout?.find((item) => item.blockType === 'media-list')?.mediaList || null
   const logo = layout?.find((item) => item.blockType === 'logo')
   const banner = layout?.find((item) => item.blockType === 'banner')
 
+  const handleScroll = () => {
+    if (!richTextRef.current || !navMenuHeight) return
+
+    const topOffset = navMenuHeight
+    const richTextPosition = richTextRef.current.offsetTop // Get the top position of the rich text
+    const scrollToPosition = richTextPosition - topOffset // Subtract the offset to stop at the desired position
+
+    window.scrollTo({
+      top: scrollToPosition,
+      behavior: 'smooth', // Smooth scrolling
+    })
+  }
+
+  useEffect(() => {
+    const navMenu = document.getElementById('navigation-menu')
+    const updateNavMenuHeight = () => {
+      if (navMenu) {
+        const navMenuRect = navMenu.getBoundingClientRect()
+        setNavMenuHeight(navMenuRect.height)
+      }
+    }
+
+    updateNavMenuHeight()
+    window.addEventListener('resize', updateNavMenuHeight)
+
+    return () => window.removeEventListener('resize', updateNavMenuHeight)
+  }, [])
+
   return (
-    <div className={cn('', className)}>
-      <BackgroundParallax mediaList={mediaList} className="text-white">
-        <div className="relative h-screen flex items-center justify-center">
-          {banner && (
-            <Banner {...banner} className="absolute top-0 text-sm tracking-wide font-semibold" />
-          )}
-          {logo && <Logo {...logo} variant="lg" orientation="vertical" />}
+    <>
+      <BackgroundParallax mediaList={mediaList} className={cn('text-white', className)}>
+        <div
+          className="relative flex flex-col items-center justify-between"
+          style={{ height: `calc(100vh - ${navMenuHeight}px)` }}
+        >
+          {banner && <Banner {...banner} className="text-sm tracking-wide font-semibold" />}
+
+          {logo && <Logo {...logo} variant="lg" orientation="vertical" className="pb-10" />}
+
+          <motion.button
+            onClick={handleScroll}
+            className="cursor-pointer"
+            animate={{
+              y: [0, -10, 0], // Move up by 10px, then back to the original position
+            }}
+            transition={{
+              duration: 1.5, // Duration of one cycle
+              repeat: Infinity, // Repeat the animation infinitely
+              ease: 'easeInOut', // Smooth easing
+            }}
+          >
+            <LuChevronDown className="text-white size-8" />
+          </motion.button>
         </div>
 
         <div
-          className={cn('mx-auto w-1/3 text-center text-lg mb-10', {
+          ref={richTextRef}
+          className={cn('mx-auto xl:w-1/3 lg:w-1/2 w-4/5 text-center text-lg my-10', {
             'tracking-[0.30em] leading-10': params.lang === 'ja',
             'tracking-widest leading-8': params.lang === 'en',
           })}
@@ -40,7 +91,7 @@ const Hero: React.FC<HeroProps> = ({ className, description, layout }) => {
           <PayloadRichText data={description as SerializedEditorState} />
         </div>
       </BackgroundParallax>
-    </div>
+    </>
   )
 }
 

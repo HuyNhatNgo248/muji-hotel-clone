@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-
-const LOCALES = ['en', 'ja']
-const DEFAULT_LOCALES = 'ja'
+import { LOCALES, DEFAULT_LOCALES } from './lib/config'
 
 export function middleware(request: NextRequest) {
   // Check if there is any supported locale in the pathname
