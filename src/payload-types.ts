@@ -159,7 +159,7 @@ export interface Page {
   id: string;
   title: string;
   slug: string;
-  dynamicZone?: (HeroBlock | ServiceIntroBlock)[] | null;
+  dynamicZone?: (HeroBlock | ServiceIntroBlock | SeparatorBlock)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -297,6 +297,16 @@ export interface ServiceIntroBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SeparatorBlock".
+ */
+export interface SeparatorBlock {
+  text: string;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'separator';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -401,6 +411,7 @@ export interface PagesSelect<T extends boolean = true> {
     | {
         hero?: T | HeroBlockSelect<T>;
         'service-intro'?: T | ServiceIntroBlockSelect<T>;
+        separator?: T | SeparatorBlockSelect<T>;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -498,6 +509,15 @@ export interface ServiceIntroBlockSelect<T extends boolean = true> {
         media?: T | MediaBlockSelect<T>;
         Button?: T | ButtonBlockSelect<T>;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SeparatorBlock_select".
+ */
+export interface SeparatorBlockSelect<T extends boolean = true> {
+  text?: T;
   id?: T;
   blockName?: T;
 }
