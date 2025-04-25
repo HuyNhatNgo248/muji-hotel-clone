@@ -1,4 +1,4 @@
-import { MujiLocale } from '@/types'
+import { Params } from '@/types'
 import NavigationMenu from './_components/navigation-menu'
 import { getDictionary } from './dictionaries'
 
@@ -7,9 +7,8 @@ export default async function Layout({
   params,
 }: {
   children: React.ReactNode
-  params: { lang: MujiLocale }
-}) {
-  const { lang } = params
+} & Params) {
+  const { lang } = await params
 
   const dictionary = await getDictionary(lang)
 
