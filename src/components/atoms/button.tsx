@@ -25,6 +25,7 @@ export default function Button({
   displayAsLink = true,
   openInNewTab = false,
   id,
+  className,
   classNames,
   ...props
 }: ButtonProps) {
@@ -46,12 +47,11 @@ export default function Button({
           'rounded-sm': borderRadius === 'default',
           'rounded-full': borderRadius === 'rounded',
         },
-        classNames?.button,
+        classNames?.button || className,
       )}
     >
-      {iconField && <Icon path={iconField} className={classNames?.icon} />}
-
       {text && <p className={classNames?.text}>{text}</p>}
+      {iconField && <Icon path={iconField} className={classNames?.icon} />}
     </ShadcnButton>
   )
 
