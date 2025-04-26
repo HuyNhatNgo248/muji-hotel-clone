@@ -1,16 +1,37 @@
+'use client'
+
 import Logo from './logo'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import LanguageSwitcher from './language-switcher'
 import { Dictionary } from '@/types'
+import { motion } from 'motion/react'
 
 interface DesktopNavMenuProps {
   className?: string
   dictionary: Dictionary
 }
 
-const DesktopNavMenu: React.FC<DesktopNavMenuProps> = async ({ className, dictionary }) => {
+const HoverLink: React.FC<{ children: React.ReactNode; href: string }> = ({ children, href }) => {
+  return (
+    <motion.div className="relative" whileHover="hover" initial="rest" animate="rest">
+      <Link href={href} className="mb-1">
+        {children}
+      </Link>
+      <motion.span
+        className="absolute bottom-0 left-1/2 h-[2px] bg-white"
+        variants={{
+          rest: { width: 0, translateX: '-50%' },
+          hover: { width: '60%', translateX: '-50%' },
+        }}
+        transition={{ duration: 0.3 }}
+      />
+    </motion.div>
+  )
+}
+
+const DesktopNavMenu: React.FC<DesktopNavMenuProps> = ({ className, dictionary }) => {
   return (
     <div className={cn('justify-between items-center lg:flex hidden', className)}>
       <div>
@@ -34,11 +55,11 @@ const DesktopNavMenu: React.FC<DesktopNavMenuProps> = async ({ className, dictio
         </div>
 
         <div className="flex gap-10">
-          <Link href={'/news'}>{dictionary['navigation-menu']['news']}</Link>
-          <Link href={'/#access'}>{dictionary['navigation-menu']['location']}</Link>
-          <Link href={'/rooms'}>{dictionary['navigation-menu']['rooms']}</Link>
-          <Link href={'/facilities'}>{dictionary['navigation-menu']['facilities']}</Link>
-          <Link href={'/contact'}>{dictionary['navigation-menu']['contact-us']}</Link>
+          <HoverLink href={'/news'}>{dictionary['navigation-menu']['news']}</HoverLink>
+          <HoverLink href={'/#access'}>{dictionary['navigation-menu']['location']}</HoverLink>
+          <HoverLink href={'/rooms'}>{dictionary['navigation-menu']['rooms']}</HoverLink>
+          <HoverLink href={'/facilities'}>{dictionary['navigation-menu']['facilities']}</HoverLink>
+          <HoverLink href={'/contact'}>{dictionary['navigation-menu']['contact-us']}</HoverLink>
 
           <LanguageSwitcher />
         </div>
