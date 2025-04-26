@@ -36,7 +36,16 @@ const ServiceIntro: React.FC<ServiceIntroProps> = ({
   return (
     <div className={cn(classNames?.container)}>
       <div className={'flex flex-col items-center gap-6'}>
-        {title && <h3 className="text-2xl font-bold">{title}</h3>}
+        {title && (
+          <h3
+            className={cn('text-2xl font-bold tracking-widest', {
+              'tracking-widest': params.lang === 'ja',
+              'tracking-wide': params.lang === 'en',
+            })}
+          >
+            {title}
+          </h3>
+        )}
         {description && (
           <div
             className={cn(

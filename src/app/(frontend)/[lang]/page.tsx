@@ -1,11 +1,12 @@
 import { Params } from '@/types'
+import { ServiceIntroBlock } from '@/payload-types'
 import { DynamicZone } from '@/types'
 
 import { fetchPage } from '@/lib/api'
 import { notFound } from 'next/navigation'
 import Hero from './_components/hero'
 import ServiceIntro from './_components/service-intro'
-import { ServiceIntroBlock } from '@/payload-types'
+import Separator from './_components/separator'
 
 export default async function Page({ params }: Params) {
   const { lang } = await params
@@ -26,6 +27,10 @@ export default async function Page({ params }: Params) {
   const facilitiesIntro = dynamicZone?.find(
     (item) => item.blockType === 'service-intro' && item.blockName === '施設',
   ) as ServiceIntroBlock | undefined
+  const separator = dynamicZone?.find((item) => item.blockType === 'separator')
+  const mujiBase = dynamicZone?.find(
+    (item) => item.blockType === 'service-intro' && item.blockName === 'MUJI BASE',
+  ) as ServiceIntroBlock | undefined
 
   return (
     <div>
@@ -44,6 +49,16 @@ export default async function Page({ params }: Params) {
             classNames={{ description: 'xl:w-[42%] lg:w-[50%] md:w-[65%] w-4/5' }}
           />
         )}
+
+        <div>
+          {separator && <Separator {...separator} className="mb-8" />}
+          {mujiBase && (
+            <ServiceIntro
+              {...mujiBase}
+              classNames={{ description: 'xl:w-[42%] lg:w-[50%] md:w-[65%] w-4/5' }}
+            />
+          )}
+        </div>
       </div>
     </div>
   )
