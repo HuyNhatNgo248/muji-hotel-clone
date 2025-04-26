@@ -1,5 +1,5 @@
 import { Params } from '@/types'
-import NavigationMenu from './_components/navigation-menu'
+import NavigationMenu from '@/components/shared/navigation-menu'
 import { getDictionary } from './dictionaries'
 
 export default async function Layout({
