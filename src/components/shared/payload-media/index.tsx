@@ -7,6 +7,9 @@ export interface PayloadMediaProps extends Media {
   priority?: boolean
 }
 
+export const MEDIA_BASE_URL =
+  process.env.NODE_ENV === 'development' ? '' : process.env.NEXT_PUBLIC_VERCEL_BLOB_STORE_BASE_URL
+
 const PayloadMedia: React.FC<PayloadMediaProps> = (media) => {
   const isImage = media.mimeType?.startsWith('image/')
   const isVideo = media.mimeType?.startsWith('video/')

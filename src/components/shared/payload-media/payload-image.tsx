@@ -2,6 +2,7 @@ import type { Media } from '@/payload-types'
 
 import Image from 'next/image'
 import { cn } from '@/lib/utils'
+import { MEDIA_BASE_URL } from '.'
 
 interface PayloadImageProps extends Media {
   className?: string
@@ -18,12 +19,9 @@ const PayloadImage: React.FC<PayloadImageProps> = ({
 }) => {
   if (!url || !alt || !width || !height) return null
 
-  const baseUrl =
-    process.env.NODE_ENV === 'development' ? '' : process.env.NEXT_PUBLIC_VERCEL_BLOB_STORE_BASE_URL
-
   return (
     <Image
-      src={`${baseUrl || ''}${url}`}
+      src={`${MEDIA_BASE_URL || ''}${url}`}
       alt={alt}
       width={width}
       height={height}

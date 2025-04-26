@@ -5,6 +5,7 @@ import { MediaBlock, Media } from '@/payload-types'
 import { cn } from '@/lib/utils'
 import { useState, useEffect, useRef } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
+import { MEDIA_BASE_URL } from '@/components/shared/payload-media'
 
 interface BackgroundParallaxProps {
   mediaList: MediaBlock[] | null
@@ -69,7 +70,7 @@ const BackgroundParallax: React.FC<BackgroundParallaxProps> = ({
               : 'absolute top-auto bottom-0 left-0 w-full h-screen bg-cover bg-center pointer-events-none z-0',
           )}
           style={{
-            backgroundImage: `url(${bgImage})`,
+            backgroundImage: `url(${MEDIA_BASE_URL}${bgImage})`,
           }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
