@@ -4,15 +4,15 @@ import type { MujiLocale } from '@/types/index'
 import { getPayload } from 'payload'
 import config from '@/payload.config'
 
+const payloadConfig = await config
+const payload = await getPayload({ config: payloadConfig })
+
 export const fetchPage = async (
   slug: string | null,
-  lang: MujiLocale,
+  locale: MujiLocale,
   query?: Where,
   depth?: number,
 ) => {
-  const payloadConfig = await config
-  const payload = await getPayload({ config: payloadConfig })
-
   const result = await payload.find({
     collection: 'pages',
     depth: depth || 2,
@@ -22,7 +22,7 @@ export const fetchPage = async (
       },
       ...(query || {}),
     },
-    locale: lang,
+    locale,
   })
 
   if (result.totalDocs === 0) {
@@ -37,9 +37,6 @@ export const fetchCollection = async (
   query?: Where,
   depth?: number,
 ) => {
-  const payloadConfig = await config
-  const payload = await getPayload({ config: payloadConfig })
-
   const result = await payload.find({
     collection,
     depth: depth || 2,
@@ -53,4 +50,20 @@ export const fetchCollection = async (
   }
 
   return result.docs
+}
+
+export const fetchById = async (
+  collection: CollectionSlug,
+  id: string,
+  locale: MujiLocale,
+  depth?: number,
+) => {
+  const result = await payload.findByID({
+    collection,
+    id,
+    depth: depth || 2,
+    locale,
+  })
+
+  return result
 }

@@ -10,5 +10,8 @@
   },
   "footer": {
     "reservation-policy": "reservation policy"
+  },
+  "news": {
+    "news": "news"
   }
 }
