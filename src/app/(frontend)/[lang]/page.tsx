@@ -31,6 +31,9 @@ export default async function Page({ params }: Params) {
   const mujiBase = dynamicZone?.find(
     (item) => item.blockType === 'service-intro' && item.blockName === 'MUJI BASE',
   ) as ServiceIntroBlock | undefined
+  const mujiRoom = dynamicZone?.find(
+    (item) => item.blockType === 'service-intro' && item.blockName === 'MUJI room',
+  ) as ServiceIntroBlock | undefined
 
   return (
     <div>
@@ -40,13 +43,13 @@ export default async function Page({ params }: Params) {
         {roomsIntro && (
           <ServiceIntro
             {...roomsIntro}
-            classNames={{ description: 'xl:w-[42%] lg:w-[50%] md:w-[65%] w-4/5' }}
+            classNames={{ description: 'xl:w-[40%] lg:w-[50%] md:w-[65%] w-4/5' }}
           />
         )}
         {facilitiesIntro && (
           <ServiceIntro
             {...facilitiesIntro}
-            classNames={{ description: 'xl:w-[42%] lg:w-[50%] md:w-[65%] w-4/5' }}
+            classNames={{ description: 'xl:w-[40%] lg:w-[50%] md:w-[65%] w-4/5' }}
           />
         )}
 
@@ -55,10 +58,16 @@ export default async function Page({ params }: Params) {
           {mujiBase && (
             <ServiceIntro
               {...mujiBase}
-              classNames={{ description: 'xl:w-[42%] lg:w-[50%] md:w-[65%] w-4/5' }}
+              classNames={{ description: 'xl:w-[40%] lg:w-[50%] md:w-[65%] w-4/5' }}
             />
           )}
         </div>
+        {mujiRoom && (
+          <ServiceIntro
+            {...mujiRoom}
+            classNames={{ description: 'xl:w-[40%] lg:w-[50%] md:w-[65%] w-4/5' }}
+          />
+        )}
       </div>
     </div>
   )

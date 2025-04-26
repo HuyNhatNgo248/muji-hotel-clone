@@ -49,7 +49,7 @@ const ServiceIntro: React.FC<ServiceIntroProps> = ({
         {description && (
           <div
             className={cn(
-              'w-full text-sm font-light text-center',
+              'w-full text-base font-light text-center',
               {
                 'leading-6': params.lang === 'en',
                 'leading-8': params.lang === 'ja',
