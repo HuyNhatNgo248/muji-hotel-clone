@@ -15,9 +15,28 @@ interface DesktopNavMenuProps {
 }
 
 const HoverLink: React.FC<{ children: React.ReactNode; href: string }> = ({ children, href }) => {
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    if (href.startsWith('/#')) {
+      e.preventDefault()
+      const targetElement = document.getElementById(href.split('#')[1])
+
+      if (targetElement) {
+        const navigationMenuHeight = document.getElementById('navigation-menu')?.offsetHeight || 0
+
+        const targetPosition =
+          targetElement.getBoundingClientRect().top + window.scrollY - navigationMenuHeight - 100
+
+        window?.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth',
+        })
+      }
+    }
+  }
+
   return (
     <motion.div className="relative" whileHover="hover" initial="rest" animate="rest">
-      <Link href={href} className="mb-1">
+      <Link href={href} onClick={handleClick} className="mb-1">
         {children}
       </Link>
       <motion.span

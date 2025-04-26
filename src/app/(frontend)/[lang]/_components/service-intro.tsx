@@ -9,12 +9,14 @@ import PayloadMedia from '@/components/shared/payload-media'
 import { useParams } from 'next/navigation'
 import Button from '@/components/atoms/button'
 import Link from 'next/link'
+import FadeIn from '@/components/animation/fade-in'
 
 interface ServiceIntroProps extends ServiceIntroBlockPayload {
   classNames?: {
     container?: string
     description?: string
   }
+  serviceId?: string
 }
 
 const ServiceIntro: React.FC<ServiceIntroProps> = ({
@@ -24,6 +26,7 @@ const ServiceIntro: React.FC<ServiceIntroProps> = ({
   url,
   openInNewTab,
   layout,
+  serviceId,
 }) => {
   const params = useParams()
 
@@ -31,7 +34,7 @@ const ServiceIntro: React.FC<ServiceIntroProps> = ({
   const media = layout?.find((item) => item.blockType === 'media')?.media
 
   return (
-    <div className={cn(classNames?.container)}>
+    <FadeIn className={cn(classNames?.container)} id={serviceId}>
       <div className={'flex flex-col items-center gap-6'}>
         {title && (
           <h3
@@ -71,7 +74,7 @@ const ServiceIntro: React.FC<ServiceIntroProps> = ({
           </Link>
         )}
       </div>
-    </div>
+    </FadeIn>
   )
 }
 

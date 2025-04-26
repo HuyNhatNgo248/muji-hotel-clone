@@ -41,7 +41,13 @@ export default async function Page({ params }: Params) {
     <div>
       {hero && <Hero {...hero} />}
       <div className="flex flex-col justify-center gap-40 py-container">
-        {accessIntro && <ServiceIntro {...accessIntro} classNames={{ description: 'w-full' }} />}
+        {accessIntro && (
+          <ServiceIntro
+            serviceId="access"
+            {...accessIntro}
+            classNames={{ description: 'w-full' }}
+          />
+        )}
         {roomsIntro && (
           <ServiceIntro
             {...roomsIntro}
