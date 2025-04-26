@@ -11,6 +11,7 @@ import { motion } from 'motion/react'
 interface DesktopNavMenuProps {
   className?: string
   dictionary: Dictionary
+  displayLogo?: boolean
 }
 
 const HoverLink: React.FC<{ children: React.ReactNode; href: string }> = ({ children, href }) => {
@@ -31,11 +32,11 @@ const HoverLink: React.FC<{ children: React.ReactNode; href: string }> = ({ chil
   )
 }
 
-const DesktopNavMenu: React.FC<DesktopNavMenuProps> = ({ className, dictionary }) => {
+const DesktopNavMenu: React.FC<DesktopNavMenuProps> = ({ className, dictionary, displayLogo }) => {
   return (
     <div className={cn('justify-between items-center lg:flex hidden', className)}>
       <div>
-        <Logo />
+        <Logo display={displayLogo} />
       </div>
       <div className={'flex flex-col items-end gap-6'}>
         <div className="flex gap-4">

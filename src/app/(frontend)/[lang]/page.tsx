@@ -7,6 +7,7 @@ import { notFound } from 'next/navigation'
 import Hero from './_components/hero'
 import ServiceIntro from './_components/service-intro'
 import Separator from './_components/separator'
+import SocialMedia from '@/components/organisms/social-media'
 
 export default async function Page({ params }: Params) {
   const { lang } = await params
@@ -34,6 +35,7 @@ export default async function Page({ params }: Params) {
   const mujiRoom = dynamicZone?.find(
     (item) => item.blockType === 'service-intro' && item.blockName === 'MUJI room',
   ) as ServiceIntroBlock | undefined
+  const socialMedia = dynamicZone?.find((item) => item.blockType === 'social-media')
 
   return (
     <div>
@@ -62,12 +64,15 @@ export default async function Page({ params }: Params) {
             />
           )}
         </div>
+
         {mujiRoom && (
           <ServiceIntro
             {...mujiRoom}
             classNames={{ description: 'xl:w-[40%] lg:w-[50%] md:w-[65%] w-4/5' }}
           />
         )}
+
+        {socialMedia && <SocialMedia {...socialMedia} />}
       </div>
     </div>
   )
