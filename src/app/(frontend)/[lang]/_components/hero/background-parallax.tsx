@@ -32,9 +32,9 @@ const BackgroundParallax: React.FC<BackgroundParallaxProps> = ({
     return () => clearInterval(interval)
   }, [mediaList])
 
-  // Switch background from fixed to absolute when content scrolls out of view
+  // Calculate `isFixed` and `overlayOpacity` on initial render and on scroll
   useEffect(() => {
-    const handleScroll = () => {
+    const calculateState = () => {
       if (!contentRef.current) return
       const rect = contentRef.current.getBoundingClientRect()
       setIsFixed(rect.bottom > window.innerHeight)
@@ -43,12 +43,16 @@ const BackgroundParallax: React.FC<BackgroundParallaxProps> = ({
       const scrollTop = window.scrollY
       const windowHeight = window.innerHeight
       const maxScroll = contentRef.current.offsetHeight - windowHeight
-      const opacity = Math.min(scrollTop / maxScroll, 0.5) // Max opacity of 0.4
+      const opacity = Math.min(scrollTop / maxScroll, 0.5) // Max opacity of 0.5
       setOverlayOpacity(opacity)
     }
 
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
+    // Run on initial render
+    calculateState()
+
+    // Add scroll event listener
+    window.addEventListener('scroll', calculateState, { passive: true })
+    return () => window.removeEventListener('scroll', calculateState)
   }, [])
 
   const bgImage = (mediaList?.[index]?.media as Media | undefined)?.url
