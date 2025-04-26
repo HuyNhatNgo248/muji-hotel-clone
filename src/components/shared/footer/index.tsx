@@ -39,7 +39,7 @@ const Footer: React.FC<FooterProps> = ({ className, dictionary }) => {
         ]}
       />
 
-      <div className="flex gap-8 justify-center items-center">
+      <div className="flex md:gap-8 gap-6 justify-center items-center md:flex-row flex-col">
         <Link href="/">
           <Logo
             orientation="horizontal"
