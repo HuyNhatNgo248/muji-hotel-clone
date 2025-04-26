@@ -159,7 +159,7 @@ export interface Page {
   id: string;
   title: string;
   slug: string;
-  dynamicZone?: (HeroBlock | ServiceIntroBlock | SeparatorBlock)[] | null;
+  dynamicZone?: (HeroBlock | ServiceIntroBlock | SeparatorBlock | SocialMediaBlock)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -307,6 +307,24 @@ export interface SeparatorBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SocialMediaBlock".
+ */
+export interface SocialMediaBlock {
+  title?: string | null;
+  socialMedia?:
+    | {
+        iconField?: string | null;
+        url?: string | null;
+        openInNewTab?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'social-media';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -412,6 +430,7 @@ export interface PagesSelect<T extends boolean = true> {
         hero?: T | HeroBlockSelect<T>;
         'service-intro'?: T | ServiceIntroBlockSelect<T>;
         separator?: T | SeparatorBlockSelect<T>;
+        'social-media'?: T | SocialMediaBlockSelect<T>;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -518,6 +537,23 @@ export interface ServiceIntroBlockSelect<T extends boolean = true> {
  */
 export interface SeparatorBlockSelect<T extends boolean = true> {
   text?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SocialMediaBlock_select".
+ */
+export interface SocialMediaBlockSelect<T extends boolean = true> {
+  title?: T;
+  socialMedia?:
+    | T
+    | {
+        iconField?: T;
+        url?: T;
+        openInNewTab?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }
