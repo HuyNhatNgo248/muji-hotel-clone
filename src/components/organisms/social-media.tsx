@@ -6,26 +6,30 @@ import Icon from '../atoms/icon'
 import Link from 'next/link'
 
 interface SocialMediaProps extends SocialMediaBlock {
-  className?: string
+  classNames?: {
+    container?: string
+    title?: string
+    icon?: string
+  }
 }
 
-const SocialMedia: React.FC<SocialMediaProps> = ({ className, title, socialMedia }) => {
+const SocialMedia: React.FC<SocialMediaProps> = ({ classNames, title, socialMedia }) => {
   return (
-    <div className={cn('w-full ', className)}>
-      <div className={'flex flex-col items-center gap-4'}>
-        <h3 className={'text-xl font-bold tracking-wide'}>{title}</h3>
+    <div className={cn('flex flex-col items-center gap-2', classNames?.container)}>
+      <h3 className={cn('text-lg font-semibold tracking-wide', classNames?.title)}>{title}</h3>
 
-        <div className="flex gap-4">
-          {socialMedia?.map((item, index) => (
-            <Link
-              key={`${item.id}-${index}`}
-              href={item.url || '/'}
-              target={item.openInNewTab ? '_blank' : '_self'}
-            >
-              {item.iconField && <Icon className="size-8" path={item.iconField} />}
-            </Link>
-          ))}
-        </div>
+      <div className="flex gap-4">
+        {socialMedia?.map((item, index) => (
+          <Link
+            key={`${item.id}-${index}`}
+            href={item.url || '/'}
+            target={item.openInNewTab ? '_blank' : '_self'}
+          >
+            {item.iconField && (
+              <Icon className={cn('size-6', classNames?.icon)} path={item.iconField} />
+            )}
+          </Link>
+        ))}
       </div>
     </div>
   )

@@ -7,5 +7,8 @@
     "contact-us": "お問い合わせ",
     "find-reservation": "ご予約の確認/変更",
     "reservations": "ご予約"
+  },
+  "footer": {
+    "reservation-policy": "リザベーションポリシー"
   }
 }

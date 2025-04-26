@@ -3,13 +3,16 @@ import { LogoBlock } from '@/payload-types'
 import { cn } from '@/lib/utils'
 
 export interface LogoProps extends LogoBlock {
-  className?: string
+  classNames?: {
+    container?: string
+    companyName?: string
+  }
   orientation?: 'horizontal' | 'vertical'
   variant: 'lg' | 'md' | 'sm'
 }
 
 const Logo: React.FC<LogoProps> = ({
-  className,
+  classNames,
   companyName,
   branchName,
   orientation = 'horizontal',
@@ -39,16 +42,19 @@ const Logo: React.FC<LogoProps> = ({
           'flex-col': orientation === 'vertical',
           'flex-row': orientation === 'horizontal',
         },
-        className,
+        classNames?.container,
       )}
     >
       {companyName && (
         <Tag
-          className={cn({
-            'text-3xl font-bold': variant === 'sm', // Add shadow
-            'text-4xl font-bold': variant === 'md', // Add larger shadow
-            'text-6xl font-bold': variant === 'lg', // Add extra-large shadow
-          })}
+          className={cn(
+            {
+              'text-3xl font-bold': variant === 'sm', // Add shadow
+              'text-4xl font-bold': variant === 'md', // Add larger shadow
+              'text-6xl font-bold': variant === 'lg', // Add extra-large shadow
+            },
+            classNames?.companyName,
+          )}
         >
           {companyName}
         </Tag>
