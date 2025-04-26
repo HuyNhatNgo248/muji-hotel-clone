@@ -28,10 +28,7 @@ const ServiceIntro: React.FC<ServiceIntroProps> = ({
   const params = useParams()
 
   const button = layout?.find((item) => item.blockType === 'Button')
-  console.log('button', button)
   const media = layout?.find((item) => item.blockType === 'media')?.media
-
-  console.log('media', media)
 
   return (
     <div className={cn(classNames?.container)}>

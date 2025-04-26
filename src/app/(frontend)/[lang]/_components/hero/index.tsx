@@ -74,7 +74,14 @@ const Hero: React.FC<HeroProps> = ({ className, description, layout }) => {
           {banner && <Banner {...banner} className="text-sm tracking-wide font-semibold" />}
 
           <div ref={logoRef}>
-            {logo && <Logo {...logo} variant="lg" orientation="vertical" className="pb-30" />}
+            {logo && (
+              <Logo
+                {...logo}
+                variant="lg"
+                orientation="vertical"
+                classNames={{ container: 'pb-30' }}
+              />
+            )}
           </div>
 
           <motion.button
