@@ -9,6 +9,25 @@ interface NavigationMenuProps {
   dictionary: Dictionary
 }
 
+export const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, href: string) => {
+  if (href.startsWith('/#')) {
+    e.preventDefault()
+    const targetElement = document.getElementById(href.split('#')[1])
+
+    if (targetElement) {
+      const navigationMenuHeight = document.getElementById('navigation-menu')?.offsetHeight || 0
+
+      const targetPosition =
+        targetElement.getBoundingClientRect().top + window.scrollY - navigationMenuHeight - 100
+
+      window?.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth',
+      })
+    }
+  }
+}
+
 export default function NavigationMenu({
   className,
   dictionary,

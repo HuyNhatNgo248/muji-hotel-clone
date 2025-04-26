@@ -18,6 +18,8 @@ import LogoComp from '@/components/organisms/logo'
 import Link from 'next/link'
 import LanguageSwitcher from './language-switcher'
 import { Button } from '@/components/ui/button'
+import { handleClick } from './index'
+import { useState } from 'react'
 
 interface MobileNavMenuProps {
   className?: string
@@ -25,9 +27,11 @@ interface MobileNavMenuProps {
 }
 
 export default function MobileNavMenu({ className, dictionary }: MobileNavMenuProps) {
+  const [isOpen, setIsOpen] = useState(false)
+
   return (
     <div className={cn('lg:hidden flex justify-between items-center', className)}>
-      <Drawer direction="left">
+      <Drawer direction="left" open={isOpen} onOpenChange={setIsOpen}>
         <DrawerTrigger>
           <LuMenu className="size-8" />
         </DrawerTrigger>
@@ -73,7 +77,16 @@ export default function MobileNavMenu({ className, dictionary }: MobileNavMenuPr
               <Link className="text-lg" href={'/news'}>
                 {dictionary['navigation-menu']['news']}
               </Link>
-              <Link className="text-lg" href={'/#access'}>
+              <Link
+                className="text-lg"
+                href={'/#access'}
+                onClick={(e) => {
+                  setIsOpen(false)
+                  setTimeout(() => {
+                    handleClick(e, '/#access')
+                  }, 300)
+                }}
+              >
                 {dictionary['navigation-menu']['location']}
               </Link>
               <Link className="text-lg" href={'/rooms'}>
