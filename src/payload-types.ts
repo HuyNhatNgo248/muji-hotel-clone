@@ -170,6 +170,7 @@ export interface Page {
  * via the `definition` "HeroBlock".
  */
 export interface HeroBlock {
+  title?: string | null;
   description?: {
     root: {
       type: string;
@@ -483,6 +484,7 @@ export interface PagesSelect<T extends boolean = true> {
  * via the `definition` "HeroBlock_select".
  */
 export interface HeroBlockSelect<T extends boolean = true> {
+  title?: T;
   description?: T;
   layout?:
     | T

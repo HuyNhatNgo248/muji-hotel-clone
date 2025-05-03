@@ -10,6 +10,11 @@ const HeroBlock: Block = {
   interfaceName: 'HeroBlock',
   fields: [
     {
+      name: 'title',
+      type: 'text',
+      localized: true,
+    },
+    {
       name: 'description',
       type: 'richText',
       localized: true,
