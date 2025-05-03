@@ -161,7 +161,7 @@ export interface Page {
   id: string;
   title: string;
   slug: string;
-  dynamicZone?: (HeroBlock | ServiceIntroBlock | SeparatorBlock | SocialMediaBlock)[] | null;
+  dynamicZone?: (HeroBlock | ServiceIntroBlock | SeparatorBlock | SocialMediaBlock | NewsBlock)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -327,6 +327,16 @@ export interface SocialMediaBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "NewsBlock".
+ */
+export interface NewsBlock {
+  news?: (string | News)[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'news';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "news".
  */
 export interface News {
@@ -463,6 +473,7 @@ export interface PagesSelect<T extends boolean = true> {
         'service-intro'?: T | ServiceIntroBlockSelect<T>;
         separator?: T | SeparatorBlockSelect<T>;
         'social-media'?: T | SocialMediaBlockSelect<T>;
+        news?: T | NewsBlockSelect<T>;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -586,6 +597,15 @@ export interface SocialMediaBlockSelect<T extends boolean = true> {
         openInNewTab?: T;
         id?: T;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "NewsBlock_select".
+ */
+export interface NewsBlockSelect<T extends boolean = true> {
+  news?: T;
   id?: T;
   blockName?: T;
 }
