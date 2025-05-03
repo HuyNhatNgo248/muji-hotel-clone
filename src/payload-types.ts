@@ -161,7 +161,9 @@ export interface Page {
   id: string;
   title: string;
   slug: string;
-  dynamicZone?: (HeroBlock | ServiceIntroBlock | SeparatorBlock | SocialMediaBlock | NewsBlock)[] | null;
+  dynamicZone?:
+    | (HeroBlock | ServiceIntroBlock | SeparatorBlock | SocialMediaBlock | NewsBlock | FacilityBlock)[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -364,6 +366,68 @@ export interface News {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FacilityBlock".
+ */
+export interface FacilityBlock {
+  title: string;
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  layout?: (ListItemBlock | HoursBlock | MediaListBlock)[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'facility';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ListItemBlock".
+ */
+export interface ListItemBlock {
+  title: string;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'list-item';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HoursBlock".
+ */
+export interface HoursBlock {
+  title: string;
+  layout?: ListItemBlock[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'hours';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -475,6 +539,7 @@ export interface PagesSelect<T extends boolean = true> {
         separator?: T | SeparatorBlockSelect<T>;
         'social-media'?: T | SocialMediaBlockSelect<T>;
         news?: T | NewsBlockSelect<T>;
+        facility?: T | FacilityBlockSelect<T>;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -608,6 +673,47 @@ export interface SocialMediaBlockSelect<T extends boolean = true> {
  */
 export interface NewsBlockSelect<T extends boolean = true> {
   news?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FacilityBlock_select".
+ */
+export interface FacilityBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  layout?:
+    | T
+    | {
+        'list-item'?: T | ListItemBlockSelect<T>;
+        hours?: T | HoursBlockSelect<T>;
+        'media-list'?: T | MediaListBlockSelect<T>;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ListItemBlock_select".
+ */
+export interface ListItemBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HoursBlock_select".
+ */
+export interface HoursBlockSelect<T extends boolean = true> {
+  title?: T;
+  layout?:
+    | T
+    | {
+        'list-item'?: T | ListItemBlockSelect<T>;
+      };
   id?: T;
   blockName?: T;
 }
