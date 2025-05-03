@@ -1,32 +1,37 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { LOCALES, DEFAULT_LOCALES } from './lib/config'
+import { MujiLocale } from './types'
 
 export function middleware(request: NextRequest) {
-  // Check if there is any supported locale in the pathname
   const { pathname } = request.nextUrl
 
   // Exclude payload admin routes
   if (pathname.includes('/admin')) return
 
+  // Check if the pathname already includes a locale
   const pathnameHasLocale = LOCALES.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
   )
 
   if (pathnameHasLocale) return
 
-  // Redirect if there is no locale
-  request.nextUrl.pathname = `/${DEFAULT_LOCALES}${pathname}`
+  // Check for a preferred locale in cookies
+  const preferredLocale = request.cookies.get('NEXT_LOCALE')?.value
 
-  // e.g. incoming request is /products
-  // The new URL is now /en-US/products
+  // Use the preferred locale if available, otherwise fallback to the default locale
+  const locale =
+    preferredLocale && LOCALES.includes(preferredLocale as MujiLocale)
+      ? preferredLocale
+      : DEFAULT_LOCALES
+
+  // Redirect to the URL with the locale
+  request.nextUrl.pathname = `/${locale}${pathname}`
   return NextResponse.redirect(request.nextUrl)
 }
 
 export const config = {
   matcher: [
-    // Skip all internal paths (_next)
+    // Skip all internal paths (_next, api, etc.)
     '/((?!_next|api).*)',
-    // Optional: only run on root (/) URL
-    // '/'
   ],
 }

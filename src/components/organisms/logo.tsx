@@ -8,7 +8,7 @@ export interface LogoProps extends LogoBlock {
     companyName?: string
   }
   orientation?: 'horizontal' | 'vertical'
-  variant: 'lg' | 'md' | 'sm'
+  variant: 'lg' | 'md' | 'sm' | 'xs'
 }
 
 const Logo: React.FC<LogoProps> = ({
@@ -49,6 +49,7 @@ const Logo: React.FC<LogoProps> = ({
         <Tag
           className={cn(
             {
+              'text-xl font-bold': variant === 'xs', // Add shadow
               'text-3xl font-bold': variant === 'sm', // Add shadow
               'text-4xl font-bold': variant === 'md', // Add larger shadow
               'text-6xl font-bold': variant === 'lg', // Add extra-large shadow
@@ -63,6 +64,7 @@ const Logo: React.FC<LogoProps> = ({
         <Tag
           className={cn(
             {
+              'text-base font-light tracking-widest': variant === 'xs', // Add extra-small shadow
               'text-2xl font-light tracking-wider': variant === 'sm', // Add small shadow
               'text-3xl font-light tracking-wider': variant === 'md', // Add medium shadow
               'text-4xl font-light tracking-wider': variant === 'lg', // Add large shadow
@@ -71,6 +73,7 @@ const Logo: React.FC<LogoProps> = ({
               'border-t px-10 py-2': variant === 'lg' && orientation === 'vertical',
               'border-t px-8 py-2': variant === 'md' && orientation === 'vertical',
               'border-t px-6 py-2': variant === 'sm' && orientation === 'vertical',
+              'border-t px-4 py-2': variant === 'xs' && orientation === 'vertical',
             },
             {
               'border-l px-2': orientation === 'horizontal',

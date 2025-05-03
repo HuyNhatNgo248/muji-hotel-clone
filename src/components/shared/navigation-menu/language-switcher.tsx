@@ -19,11 +19,15 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ className }) => {
   function switchLocale(locale: MujiLocale) {
     if (locale === (params.lang as MujiLocale)) return
 
-    // Remove the current locale from the pathname and prepend the new one
+    // Update the locale in the pathname
     const segments = pathname.split('/')
     segments[1] = locale // Assumes /[lang]/... structure
     const newPath = segments.join('/') || '/'
 
+    // Set the preferred locale in cookies
+    document.cookie = `NEXT_LOCALE=${locale}; path=/`
+
+    // Redirect to the new path
     router.push(newPath)
   }
 
@@ -31,7 +35,10 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ className }) => {
     <div className={cn('flex gap-2', className)}>
       {LOCALES.map((locale, index) => (
         <React.Fragment key={`${locale}-${index}`}>
-          <button onClick={() => switchLocale(locale)} className="cursor-pointer">
+          <button
+            onClick={() => switchLocale(locale)}
+            className={cn('cursor-pointer', locale === params.lang ? 'font-bold' : '')}
+          >
             {locale.toUpperCase()}
           </button>
 

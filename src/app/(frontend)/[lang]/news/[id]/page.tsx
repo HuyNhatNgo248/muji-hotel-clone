@@ -23,10 +23,9 @@ export default async function Page({ params }: Params) {
 
   return (
     <div className="w-container py-container">
-      <h2 className="text-2xl font-semibold mb-8 capitalize">{dictionary['news']['news']}</h2>
-
       <div className="flex flex-col items-center">
         <div className="flex flex-col gap-8 xl:w-1/2 lg:w-2/3 md:w-[80%] w-full text-xl">
+          <h2 className="text-4xl font-semibold mb-8 capitalize">{dictionary['news']['news']}</h2>
           <div>
             {title && <p className="mb-4 text-2xl font-semibold">{title}</p>}
             {publishedDate && <p className="text-sm text-gray-500">{formatDate(publishedDate)}</p>}
