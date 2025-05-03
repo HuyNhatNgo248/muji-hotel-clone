@@ -16,7 +16,6 @@ interface ServiceIntroProps extends ServiceIntroBlockPayload {
     container?: string
     description?: string
   }
-  serviceId?: string
 }
 
 const ServiceIntro: React.FC<ServiceIntroProps> = ({
@@ -26,7 +25,6 @@ const ServiceIntro: React.FC<ServiceIntroProps> = ({
   url,
   openInNewTab,
   layout,
-  serviceId,
 }) => {
   const params = useParams()
 
@@ -34,7 +32,7 @@ const ServiceIntro: React.FC<ServiceIntroProps> = ({
   const media = layout?.find((item) => item.blockType === 'media')?.media
 
   return (
-    <FadeIn className={cn(classNames?.container)} id={serviceId}>
+    <FadeIn className={cn(classNames?.container)}>
       <div className={'flex flex-col items-center gap-6'}>
         {title && (
           <h3
