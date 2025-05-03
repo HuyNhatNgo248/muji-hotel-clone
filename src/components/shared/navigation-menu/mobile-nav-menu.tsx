@@ -18,7 +18,6 @@ import LogoComp from '@/components/organisms/logo'
 import Link from 'next/link'
 import LanguageSwitcher from './language-switcher'
 import { Button } from '@/components/ui/button'
-import { handleClick } from './index'
 import { useState } from 'react'
 
 interface MobileNavMenuProps {
@@ -74,28 +73,19 @@ export default function MobileNavMenu({ className, dictionary }: MobileNavMenuPr
             </div>
 
             <div className="flex flex-col gap-8 uppercase">
-              <Link className="text-lg" href={'/news'}>
+              <Link className="text-lg" href={'/news'} onClick={() => setIsOpen(false)}>
                 {dictionary['navigation-menu']['news']}
               </Link>
-              <Link
-                className="text-lg"
-                href={'/#access'}
-                onClick={(e) => {
-                  setIsOpen(false)
-                  setTimeout(() => {
-                    handleClick(e, '/#access')
-                  }, 300)
-                }}
-              >
+              <Link className="text-lg" href={'/#access'}>
                 {dictionary['navigation-menu']['location']}
               </Link>
-              <Link className="text-lg" href={'/rooms'}>
+              <Link className="text-lg" href={'/rooms'} onClick={() => setIsOpen(false)}>
                 {dictionary['navigation-menu']['rooms']}
               </Link>
-              <Link className="text-lg" href={'/facilities'}>
+              <Link className="text-lg" href={'/facilities'} onClick={() => setIsOpen(false)}>
                 {dictionary['navigation-menu']['facilities']}
               </Link>
-              <Link className="text-lg" href={'/contact'}>
+              <Link className="text-lg" href={'/contact'} onClick={() => setIsOpen(false)}>
                 {dictionary['navigation-menu']['contact-us']}
               </Link>
             </div>

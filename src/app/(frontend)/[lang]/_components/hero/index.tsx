@@ -11,8 +11,9 @@ import PayloadRichText from '@/components/shared/payload-richtext'
 import { useParams } from 'next/navigation'
 import { LuChevronDown } from 'react-icons/lu'
 import { motion, useInView } from 'motion/react'
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect } from 'react'
 import useDisplayLogoStore from '@/hooks/use-display-logo'
+import useCompHeight from '@/hooks/use-comp-height'
 
 interface HeroProps extends HeroBlock {
   className?: string
@@ -23,8 +24,8 @@ const Hero: React.FC<HeroProps> = ({ className, description, layout }) => {
   const richTextRef = useRef<HTMLDivElement>(null)
   const logoRef = useRef<HTMLDivElement>(null)
   const setDisplayLogo = useDisplayLogoStore((state) => state.setDisplayLogo)
+  const { compHeight } = useCompHeight('navigation-menu')
   const isLogoInView = useInView(logoRef)
-  const [navMenuHeight, setNavMenuHeight] = useState<number>(0)
 
   const mediaList = layout?.find((item) => item.blockType === 'media-list')?.mediaList || null
   const logo = layout?.find((item) => item.blockType === 'logo')
@@ -44,21 +45,6 @@ const Hero: React.FC<HeroProps> = ({ className, description, layout }) => {
   }
 
   useEffect(() => {
-    const navMenu = document.getElementById('navigation-menu')
-    const updateNavMenuHeight = () => {
-      if (navMenu) {
-        const navMenuRect = navMenu.getBoundingClientRect()
-        setNavMenuHeight(navMenuRect.height)
-      }
-    }
-
-    updateNavMenuHeight()
-    window.addEventListener('resize', updateNavMenuHeight)
-
-    return () => window.removeEventListener('resize', updateNavMenuHeight)
-  }, [])
-
-  useEffect(() => {
     if (!logoRef.current) return
 
     setDisplayLogo(!isLogoInView)
@@ -69,7 +55,7 @@ const Hero: React.FC<HeroProps> = ({ className, description, layout }) => {
       <BackgroundParallax mediaList={mediaList} className={cn('text-white', className)}>
         <div
           className="relative flex flex-col items-center justify-between"
-          style={{ height: `calc(100vh - ${navMenuHeight}px)` }}
+          style={{ height: `calc(100vh - ${compHeight}px)` }}
         >
           {banner && <Banner {...banner} className="text-sm tracking-wide font-semibold" />}
 

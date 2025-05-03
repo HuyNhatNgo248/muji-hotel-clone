@@ -1,5 +1,6 @@
 'use client'
 
+import { usePathname } from 'next/navigation'
 import Logo from './logo'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
@@ -7,7 +8,6 @@ import { Button } from '@/components/ui/button'
 import LanguageSwitcher from './language-switcher'
 import { Dictionary } from '@/types'
 import { motion } from 'motion/react'
-import { handleClick } from './index'
 
 interface DesktopNavMenuProps {
   className?: string
@@ -15,10 +15,14 @@ interface DesktopNavMenuProps {
   displayLogo?: boolean
 }
 
-const HoverLink: React.FC<{ children: React.ReactNode; href: string }> = ({ children, href }) => {
+const HoverLink: React.FC<{
+  children: React.ReactNode
+  href: string
+  isActive: boolean
+}> = ({ children, href, isActive }) => {
   return (
-    <motion.div className="relative" whileHover="hover" initial="rest" animate="rest">
-      <Link href={href} onClick={(e) => handleClick(e, href)} className="mb-1">
+    <motion.div className={'relative pb-1'} whileHover="hover" initial="rest" animate="rest">
+      <Link href={href} className="mb-1">
         {children}
       </Link>
       <motion.span
@@ -29,11 +33,20 @@ const HoverLink: React.FC<{ children: React.ReactNode; href: string }> = ({ chil
         }}
         transition={{ duration: 0.3 }}
       />
+
+      <span
+        className={cn(
+          'absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] bg-white w-[60%] hidden',
+          isActive && 'block',
+        )}
+      ></span>
     </motion.div>
   )
 }
 
 const DesktopNavMenu: React.FC<DesktopNavMenuProps> = ({ className, dictionary, displayLogo }) => {
+  const pathname = usePathname()
+
   return (
     <div className={cn('justify-between items-center lg:flex hidden', className)}>
       <div>
@@ -57,11 +70,22 @@ const DesktopNavMenu: React.FC<DesktopNavMenuProps> = ({ className, dictionary, 
         </div>
 
         <div className="flex gap-10">
-          <HoverLink href={'/news'}>{dictionary['navigation-menu']['news']}</HoverLink>
-          <HoverLink href={'/#access'}>{dictionary['navigation-menu']['location']}</HoverLink>
-          <HoverLink href={'/rooms'}>{dictionary['navigation-menu']['rooms']}</HoverLink>
-          <HoverLink href={'/facilities'}>{dictionary['navigation-menu']['facilities']}</HoverLink>
-          <HoverLink href={'/contact'}>{dictionary['navigation-menu']['contact-us']}</HoverLink>
+          <HoverLink href={'/news'} isActive={pathname.includes('/news')}>
+            {dictionary['navigation-menu']['news']}
+          </HoverLink>
+
+          <HoverLink href={`/#access`} isActive={pathname.includes('/#access')}>
+            {dictionary['navigation-menu']['location']}
+          </HoverLink>
+          <HoverLink href={'/rooms'} isActive={pathname.includes('/rooms')}>
+            {dictionary['navigation-menu']['rooms']}
+          </HoverLink>
+          <HoverLink href={'/facilities'} isActive={pathname.includes('/facilities')}>
+            {dictionary['navigation-menu']['facilities']}
+          </HoverLink>
+          <HoverLink href={'/contact'} isActive={pathname.includes('/contact')}>
+            {dictionary['navigation-menu']['contact-us']}
+          </HoverLink>
 
           <LanguageSwitcher />
         </div>
