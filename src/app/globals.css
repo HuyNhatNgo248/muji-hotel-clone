@@ -12,6 +12,10 @@
   @apply xl:py-32 lg:py-28 md:py-24 py-20;
 }
 
+.py-container-sm {
+  @apply xl:py-20 py-16;
+}
+
 .pb-container {
   @apply xl:pb-24 lg:pb-20 md:pb-16 pb-12;
 }

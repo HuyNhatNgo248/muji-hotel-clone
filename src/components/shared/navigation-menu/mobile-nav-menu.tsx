@@ -28,6 +28,12 @@ interface MobileNavMenuProps {
 export default function MobileNavMenu({ className, dictionary }: MobileNavMenuProps) {
   const [isOpen, setIsOpen] = useState(false)
 
+  const handleCloseMenu = () => {
+    setTimeout(() => {
+      setIsOpen(false)
+    }, 300)
+  }
+
   return (
     <div className={cn('lg:hidden flex justify-between items-center', className)}>
       <Drawer direction="left" open={isOpen} onOpenChange={setIsOpen}>
@@ -41,13 +47,15 @@ export default function MobileNavMenu({ className, dictionary }: MobileNavMenuPr
           </DrawerHeader>
           <div className="flex flex-col px-8 gap-10 h-full">
             <div className="flex justify-between items-center w-full">
-              <LogoComp
-                blockType="logo"
-                variant="sm"
-                orientation="horizontal"
-                companyName="MUJI HOTEL"
-                branchName="GINZA"
-              />
+              <Link href={'/'} onClick={handleCloseMenu}>
+                <LogoComp
+                  blockType="logo"
+                  variant="sm"
+                  orientation="horizontal"
+                  companyName="MUJI HOTEL"
+                  branchName="GINZA"
+                />
+              </Link>
 
               <DrawerClose className="size-8" asChild>
                 <button className="cursor-pointer">
@@ -73,19 +81,19 @@ export default function MobileNavMenu({ className, dictionary }: MobileNavMenuPr
             </div>
 
             <div className="flex flex-col gap-8 uppercase">
-              <Link className="text-lg" href={'/news'} onClick={() => setIsOpen(false)}>
+              <Link className="text-lg" href={'/news'} onClick={handleCloseMenu}>
                 {dictionary['navigation-menu']['news']}
               </Link>
-              <Link className="text-lg" href={'/#access'}>
+              <Link className="text-lg" href={'/location'} onClick={handleCloseMenu}>
                 {dictionary['navigation-menu']['location']}
               </Link>
-              <Link className="text-lg" href={'/rooms'} onClick={() => setIsOpen(false)}>
+              <Link className="text-lg" href={'/rooms'} onClick={handleCloseMenu}>
                 {dictionary['navigation-menu']['rooms']}
               </Link>
-              <Link className="text-lg" href={'/facilities'} onClick={() => setIsOpen(false)}>
+              <Link className="text-lg" href={'/facilities'} onClick={handleCloseMenu}>
                 {dictionary['navigation-menu']['facilities']}
               </Link>
-              <Link className="text-lg" href={'/contact'} onClick={() => setIsOpen(false)}>
+              <Link className="text-lg" href={'/contact'} onClick={handleCloseMenu}>
                 {dictionary['navigation-menu']['contact-us']}
               </Link>
             </div>

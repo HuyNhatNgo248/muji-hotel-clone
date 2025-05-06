@@ -40,7 +40,7 @@ export default async function Page({ params }: Params) {
   return (
     <div>
       {hero && <Hero {...hero} />}
-      <div className="flex flex-col justify-center gap-40 py-container">
+      <div className="flex flex-col justify-center lg:gap-40 md:gap-32 gap-20 py-container-sm">
         {accessIntro && <ServiceIntro {...accessIntro} classNames={{ description: 'w-full' }} />}
 
         {roomsIntro && (

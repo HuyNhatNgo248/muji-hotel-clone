@@ -13,5 +13,8 @@
   },
   "news": {
     "news": "news"
+  },
+  "location": {
+    "location": "location"
   }
 }

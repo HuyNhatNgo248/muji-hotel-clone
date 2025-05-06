@@ -22,8 +22,8 @@ export default async function Page({ params }: Params) {
   const dictionary = await getDictionary(lang)
 
   return (
-    <div className="flex flex-col justify-center py-container w-container gap-20">
-      <div className="xl:w-[64%] w-[80%] mx-auto">
+    <div className="flex flex-col justify-center py-container-sm w-container gap-20">
+      <div className="xl:w-[64%] md:w-[80%] w-[90%] mx-auto">
         <h2 className="text-4xl font-semibold mb-16 capitalize">{dictionary['news']['news']}</h2>
         {news && <NewsList {...news} />}
       </div>

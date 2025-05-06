@@ -22,7 +22,7 @@ export default async function Page({ params }: Params) {
   const { title, content, publishedDate } = news as News
 
   return (
-    <div className="w-container py-container">
+    <div className="w-container py-container-sm">
       <div className="flex flex-col items-center">
         <div className="flex flex-col gap-8 xl:w-1/2 lg:w-2/3 md:w-[80%] w-full text-xl">
           <h2 className="text-4xl font-semibold mb-8 capitalize">{dictionary['news']['news']}</h2>

@@ -74,7 +74,7 @@ const DesktopNavMenu: React.FC<DesktopNavMenuProps> = ({ className, dictionary, 
             {dictionary['navigation-menu']['news']}
           </HoverLink>
 
-          <HoverLink href={`/#access`} isActive={pathname.includes('/#access')}>
+          <HoverLink href={`/location`} isActive={pathname.includes('/location')}>
             {dictionary['navigation-menu']['location']}
           </HoverLink>
           <HoverLink href={'/rooms'} isActive={pathname.includes('/rooms')}>
