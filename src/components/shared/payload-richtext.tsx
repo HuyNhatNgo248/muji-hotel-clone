@@ -44,7 +44,7 @@ const PayloadRichText: React.FC<PayloadRichTextProps> = ({ data, classNames }) =
     },
   })
 
-  return <RichText data={data} converters={converters} className={classNames?.container} />
+  return <RichText data={data} converters={converters} className={cn('', classNames?.container)} />
 }
 
 export default PayloadRichText

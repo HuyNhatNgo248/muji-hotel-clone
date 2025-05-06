@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@plugin "@tailwindcss/typography";
 
 @theme {
   --font-sans: var(--font-roboto), 'sans-serif';
@@ -18,4 +19,36 @@
 
 .pb-container {
   @apply xl:pb-24 lg:pb-20 md:pb-16 pb-12;
+}
+
+/* Accordion Animations for shadcn accordion */
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+.accordion-content {
+  overflow: hidden;
+  transition: height 0.3s cubic-bezier(0.87, 0, 0.13, 1);
+}
+
+.accordion-content[data-state='open'] {
+  animation: accordion-down 0.3s cubic-bezier(0.87, 0, 0.13, 1);
+}
+
+.accordion-content[data-state='closed'] {
+  animation: accordion-up 0.3s cubic-bezier(0.87, 0, 0.13, 1);
 }

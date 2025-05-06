@@ -162,7 +162,7 @@ export interface Page {
   title: string;
   slug: string;
   dynamicZone?:
-    | (HeroBlock | ServiceIntroBlock | SeparatorBlock | SocialMediaBlock | NewsBlock | FacilityBlock)[]
+    | (HeroBlock | ServiceIntroBlock | SeparatorBlock | SocialMediaBlock | NewsBlock | FacilityBlock | FaqBlock)[]
     | null;
   updatedAt: string;
   createdAt: string;
@@ -428,6 +428,42 @@ export interface HoursBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FaqBlock".
+ */
+export interface FaqBlock {
+  groupTitle?: string | null;
+  faqItems?: FaqItemBlock[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'faq';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FaqItemBlock".
+ */
+export interface FaqItemBlock {
+  question: string;
+  answer: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'faq-item';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -540,6 +576,7 @@ export interface PagesSelect<T extends boolean = true> {
         'social-media'?: T | SocialMediaBlockSelect<T>;
         news?: T | NewsBlockSelect<T>;
         facility?: T | FacilityBlockSelect<T>;
+        faq?: T | FaqBlockSelect<T>;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -714,6 +751,30 @@ export interface HoursBlockSelect<T extends boolean = true> {
     | {
         'list-item'?: T | ListItemBlockSelect<T>;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FaqBlock_select".
+ */
+export interface FaqBlockSelect<T extends boolean = true> {
+  groupTitle?: T;
+  faqItems?:
+    | T
+    | {
+        'faq-item'?: T | FaqItemBlockSelect<T>;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FaqItemBlock_select".
+ */
+export interface FaqItemBlockSelect<T extends boolean = true> {
+  question?: T;
+  answer?: T;
   id?: T;
   blockName?: T;
 }

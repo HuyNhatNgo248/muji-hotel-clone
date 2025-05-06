@@ -5,6 +5,7 @@ import SeparatorBlock from '../_blocks/molecules/separator-block'
 import SocialMediaBlock from '../_blocks/organisms/social-media-block'
 import NewsBlock from '../_blocks/organisms/news-block'
 import FacilityBlock from '../_blocks/organisms/facility-block'
+import FaqBlock from '../_blocks/organisms/faq-block'
 
 const DynamicZoneField: Field = {
   name: 'dynamicZone',
@@ -16,6 +17,7 @@ const DynamicZoneField: Field = {
     SocialMediaBlock,
     NewsBlock,
     FacilityBlock,
+    FaqBlock,
   ],
 }
 

@@ -16,5 +16,8 @@
   },
   "location": {
     "location": "location"
+  },
+  "contact": {
+    "contact": "FAQ"
   }
 }
