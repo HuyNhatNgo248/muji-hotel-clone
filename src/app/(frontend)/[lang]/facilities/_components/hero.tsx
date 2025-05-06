@@ -3,6 +3,7 @@ import { HeroBlock, Media } from '@/payload-types'
 import { cn } from '@/lib/utils'
 import { useEffect, useState } from 'react'
 import useCompHeight from '@/hooks/use-comp-height'
+import { MEDIA_BASE_URL } from '@/components/shared/payload-media'
 
 interface HeroProps extends HeroBlock {
   className?: string
@@ -30,7 +31,7 @@ const Hero: React.FC<HeroProps> = ({ className, title, description, layout }) =>
           'relative w-full h-[560px] lg:flex items-center justify-center bg-cover bg-center bg-no-repeat hidden'
         }
         style={{
-          backgroundImage: lgImageUrl ? `url(${lgImageUrl})` : undefined,
+          backgroundImage: lgImageUrl ? `url(${MEDIA_BASE_URL}${lgImageUrl})` : undefined,
           backgroundPositionY: `${offsetY * 0.5 - 100}px`, // Parallax effect
           marginTop: `-${compHeight}px`, // Adjust for navigation menu height
         }}
@@ -40,7 +41,7 @@ const Hero: React.FC<HeroProps> = ({ className, title, description, layout }) =>
           'relative w-full h-[450px] flex items-center justify-center bg-cover bg-center bg-no-repeat lg:hidden'
         }
         style={{
-          backgroundImage: smImageUrl ? `url(${smImageUrl})` : undefined,
+          backgroundImage: smImageUrl ? `url(${MEDIA_BASE_URL}${smImageUrl})` : undefined,
           backgroundPositionY: `${offsetY * 0.5}px`, // Parallax effect
           marginTop: `-${compHeight}px`, // Adjust for navigation menu height
         }}

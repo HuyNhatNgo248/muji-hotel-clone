@@ -60,5 +60,5 @@ async function uploadAllFiles() {
   }
 }
 
-// deleteAllBlobs()
+deleteAllBlobs()
 uploadAllFiles()
