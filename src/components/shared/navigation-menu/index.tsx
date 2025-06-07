@@ -19,7 +19,7 @@ export default function NavigationMenu({ className, dictionary }: NavigationMenu
   return (
     <nav
       id="navigation-menu"
-      className={cn('sticky top-0 z-50 text-white uppercase bg-black/20', className)}
+      className={cn('sticky top-0 z-50 text-white uppercase bg-black/40', className)}
     >
       <div className="w-container">
         <DesktopNavMenu
