@@ -9,7 +9,7 @@ interface HeroProps extends HeroBlock {
   className?: string
 }
 
-const Hero: React.FC<HeroProps> = ({ className, title, description, layout }) => {
+const Hero: React.FC<HeroProps> = ({ className, layout }) => {
   const [offsetY, setOffsetY] = useState(0)
   const { compHeight } = useCompHeight('navigation-menu')
 
@@ -27,9 +27,10 @@ const Hero: React.FC<HeroProps> = ({ className, title, description, layout }) =>
   return (
     <>
       <div
-        className={
-          'relative w-full h-[560px] lg:flex items-center justify-center bg-cover bg-center bg-no-repeat hidden'
-        }
+        className={cn(
+          'relative w-full h-[560px] lg:flex items-center justify-center bg-cover bg-center bg-no-repeat hidden',
+          className,
+        )}
         style={{
           backgroundImage: lgImageUrl ? `url(${MEDIA_BASE_URL}${lgImageUrl})` : undefined,
           backgroundPositionY: `${offsetY * 0.5 - 100}px`, // Parallax effect
@@ -37,17 +38,16 @@ const Hero: React.FC<HeroProps> = ({ className, title, description, layout }) =>
         }}
       />
       <div
-        className={
-          'relative w-full h-[450px] flex items-center justify-center bg-cover bg-center bg-no-repeat lg:hidden'
-        }
+        className={cn(
+          'relative w-full h-[450px] flex items-center justify-center bg-cover bg-center bg-no-repeat lg:hidden',
+          className,
+        )}
         style={{
           backgroundImage: smImageUrl ? `url(${MEDIA_BASE_URL}${smImageUrl})` : undefined,
           backgroundPositionY: `${offsetY * 0.5}px`, // Parallax effect
           marginTop: `-${compHeight}px`, // Adjust for navigation menu height
         }}
       />
-
-      <div className={cn('', className)}>lol</div>
     </>
   )
 }

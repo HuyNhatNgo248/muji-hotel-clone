@@ -19,7 +19,6 @@ export default async function Page({ params }: Params) {
 
   const dictionary = await getDictionary(lang)
 
-  console.log(faqs)
   return (
     <div className="py-container-sm">
       <div className="xl:w-[64%] md:w-[80%] w-[90%] mx-auto">
