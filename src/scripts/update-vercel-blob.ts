@@ -52,20 +52,30 @@ async function uploadMissingFiles() {
   const existingBlobNames = await getAllBlobFileNames()
   const files = fs.readdirSync(MEDIA_DIR)
 
-  for (const fileName of files) {
-    const filePath = path.join(MEDIA_DIR, fileName)
-    if (fs.statSync(filePath).isFile()) {
-      if (!existingBlobNames.has(fileName)) {
-        try {
-          await uploadFile(filePath, fileName)
-        } catch (err) {
-          console.error(`Failed to upload ${fileName}:`, err)
-        }
-      } else {
-        console.log(`Skipping ${fileName}, already exists in blob storage.`)
+  // Prepare an array of upload promises for files that don't exist in blob storage
+  const uploadPromises = files
+    .filter((fileName) => {
+      const filePath = path.join(MEDIA_DIR, fileName)
+      return fs.statSync(filePath).isFile() && !existingBlobNames.has(fileName)
+    })
+    .map(async (fileName) => {
+      const filePath = path.join(MEDIA_DIR, fileName)
+      try {
+        return await uploadFile(filePath, fileName)
+      } catch (err) {
+        console.error(`Failed to upload ${fileName}:`, err)
       }
+    })
+
+  // Run uploads in parallel
+  await Promise.all(uploadPromises)
+
+  // Optionally, log skipped files
+  files.forEach((fileName) => {
+    if (existingBlobNames.has(fileName)) {
+      console.log(`Skipping ${fileName}, already exists in blob storage.`)
     }
-  }
+  })
 }
 
 uploadMissingFiles()
