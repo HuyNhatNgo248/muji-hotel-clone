@@ -91,10 +91,13 @@ const Gallery: React.FC<GalleryProps> = ({ className, mediaList }) => {
               key={idx}
               type="button"
               onClick={() => handleDotClick(idx)}
-              className={cn('w-3 h-3 rounded-full border-none outline-none cursor-pointer', {
-                'bg-gray-200': selectedIndex !== idx,
-                'bg-gray-500': selectedIndex === idx,
-              })}
+              className={cn(
+                'md:size-3 size-2 rounded-full border-none outline-none cursor-pointer',
+                {
+                  'bg-gray-200': selectedIndex !== idx,
+                  'bg-gray-500': selectedIndex === idx,
+                },
+              )}
               aria-label={`Go to slide ${idx + 1}`}
             />
           ))}

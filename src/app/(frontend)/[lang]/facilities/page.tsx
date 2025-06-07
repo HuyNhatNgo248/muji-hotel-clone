@@ -5,7 +5,6 @@ import { notFound } from 'next/navigation'
 import Hero from './_components/hero'
 import Intro from './_components/intro'
 import Facility from '@/components/organisms/facility'
-import { FacilityBlock } from '@/payload-types'
 import { cn } from '@/lib/utils'
 
 export default async function Page({ params }: Params) {
@@ -20,15 +19,7 @@ export default async function Page({ params }: Params) {
   const hero = dynamicZone?.find((item) => item.blockType === 'hero')
   const intro = dynamicZone?.find((item) => item.blockType === 'service-intro')
 
-  const waFacility = dynamicZone?.find(
-    (item) => item.blockType === 'facility' && item.blockName === 'WA',
-  ) as FacilityBlock | undefined
-  const libraryFacility = dynamicZone?.find(
-    (item) => item.blockType === 'facility' && item.blockName === 'Library',
-  ) as FacilityBlock | undefined
-  const salonFacility = dynamicZone?.find(
-    (item) => item.blockType === 'facility' && item.blockName === 'Salon',
-  ) as FacilityBlock | undefined
+  const facilities = dynamicZone?.filter((item) => item.blockType === 'facility')
 
   return (
     <div
@@ -39,9 +30,11 @@ export default async function Page({ params }: Params) {
     >
       {hero && <Hero {...hero} />}
       {intro && <Intro {...intro} />}
-      {waFacility && <Facility {...waFacility} />}
-      {libraryFacility && <Facility {...libraryFacility} />}
-      {salonFacility && <Facility {...salonFacility} />}
+
+      {facilities &&
+        facilities?.map((facility, index) => (
+          <Facility key={`${facility.id}-${index}`} {...facility} />
+        ))}
     </div>
   )
 }

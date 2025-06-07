@@ -63,8 +63,11 @@ const Facility: React.FC<FacilityProps> = ({ className, title, description, layo
             )}
 
             {hours && <Hours {...hours} />}
-            {seats && <Info {...seats} />}
-            {floor && <Info {...floor} />}
+
+            <div className="grid grid-cols-[auto_1fr] gap-x-12 gap-y-6 text-xs font-bold">
+              {seats && <Info {...seats} />}
+              {floor && <Info {...floor} />}
+            </div>
           </div>
         </div>
 
