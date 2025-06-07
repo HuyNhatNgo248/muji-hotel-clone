@@ -54,7 +54,7 @@ const Gallery: React.FC<GalleryProps> = ({ className, mediaList }) => {
           loop: true,
         }}
       >
-        <CarouselContent className="-ml-0">
+        <CarouselContent className="-ml-0 h-full" classNames={{ container: 'h-full' }}>
           {mediaList?.map((item) => {
             if (!item.media) return null
 
@@ -63,7 +63,7 @@ const Gallery: React.FC<GalleryProps> = ({ className, mediaList }) => {
                 key={item.id}
                 className={'h-full w-full flex items-center justify-center pl-0'}
               >
-                <div className="w-full">
+                <div className="w-full h-full">
                   <PayloadMedia {...(item.media as Media)} className="xl:object-cover" />
                 </div>
               </CarouselItem>
