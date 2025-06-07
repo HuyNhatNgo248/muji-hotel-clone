@@ -21,7 +21,7 @@ const ServiceIntroBlock: Block = {
     {
       name: 'layout',
       type: 'blocks',
-      minRows: 1,
+      minRows: 0,
       maxRows: 20,
       blocks: [MediaBlock, ButtonBlock],
     },
