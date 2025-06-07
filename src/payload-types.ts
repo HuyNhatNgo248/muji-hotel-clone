@@ -395,7 +395,7 @@ export interface FacilityBlock {
  * via the `definition` "ListItemBlock".
  */
 export interface ListItemBlock {
-  title: string;
+  title?: string | null;
   description?: {
     root: {
       type: string;

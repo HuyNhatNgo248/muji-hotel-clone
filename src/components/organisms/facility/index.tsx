@@ -34,11 +34,13 @@ const Facility: React.FC<FacilityProps> = ({ className, title, description, layo
 
   return (
     <div className={cn('py-container-sm', className)}>
-      <div className="grid xl:grid-cols-[500px_1fr] grid-rows-[auto_1fr]">
+      <div className="grid xl:grid-cols-[500px_1fr] grid-rows-[auto_1fr] max-w-[1440px] mx-auto">
+        {gallery && <Gallery {...gallery} className="xl:hidden block" />}
+
         <div className="bg-gray-100 py-20 xl:px-16 lg:px-40 md:px-20 px-8 flex flex-col gap-6">
           {title && (
             <h2
-              className={cn('text-4xl font-bold', {
+              className={cn('text-4xl/normal font-bold', {
                 'tracking-widest': params.lang === 'ja',
                 'tracking-wide': params.lang === 'en',
               })}
@@ -51,7 +53,7 @@ const Facility: React.FC<FacilityProps> = ({ className, title, description, layo
             {description && (
               <PayloadRichText
                 classNames={{
-                  container: cn('text-sm', {
+                  container: cn('text-sm/normal', {
                     'tracking-widest': params.lang === 'ja',
                     'tracking-wide': params.lang === 'en',
                   }),
@@ -65,7 +67,8 @@ const Facility: React.FC<FacilityProps> = ({ className, title, description, layo
             {floor && <Info {...floor} />}
           </div>
         </div>
-        {gallery && <Gallery {...gallery} />}
+
+        {gallery && <Gallery {...gallery} className="xl:block hidden" />}
       </div>
     </div>
   )

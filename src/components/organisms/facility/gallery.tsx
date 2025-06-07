@@ -42,8 +42,10 @@ const Gallery: React.FC<GalleryProps> = ({ className, mediaList }) => {
     if (api) api.scrollTo(idx)
   }
 
+  const multipleMedia = mediaList && mediaList.length > 1
+
   return (
-    <div className="relative">
+    <div className={cn('relative', className)}>
       <Carousel
         className="h-full"
         setApi={setApi}
@@ -59,7 +61,7 @@ const Gallery: React.FC<GalleryProps> = ({ className, mediaList }) => {
             return (
               <CarouselItem
                 key={item.id}
-                className={cn('h-full w-full flex items-center justify-center pl-0', className)}
+                className={'h-full w-full flex items-center justify-center pl-0'}
               >
                 <div className="w-full xl:h-[560px]">
                   <PayloadMedia {...(item.media as Media)} className="xl:object-cover" />
@@ -68,30 +70,36 @@ const Gallery: React.FC<GalleryProps> = ({ className, mediaList }) => {
             )
           })}
         </CarouselContent>
-        <CarouselPrevious
-          className="absolute top-1/2 -translate-y-1/2 md:left-6 left-4 border-none cursor-pointer"
-          icon={<LuChevronLeft className="text-white size-8" />}
-        />
-        <CarouselNext
-          className="absolute top-1/2 -translate-y-1/2 md:right-6 right-4 border-none cursor-pointer"
-          icon={<LuChevronRight className="text-white size-8" />}
-        />
+        {multipleMedia && (
+          <>
+            <CarouselPrevious
+              className="absolute top-1/2 -translate-y-1/2 md:left-6 left-4 border-none cursor-pointer"
+              icon={<LuChevronLeft className="text-white size-8" />}
+            />
+            <CarouselNext
+              className="absolute top-1/2 -translate-y-1/2 md:right-6 right-4 border-none cursor-pointer"
+              icon={<LuChevronRight className="text-white size-8" />}
+            />
+          </>
+        )}
       </Carousel>
 
-      <div className="absolute flex items-center justify-center gap-3 mt-6 left-1/2 -translate-x-1/2 md:bottom-6 bottom-4 z-10">
-        {mediaList?.map((_, idx) => (
-          <button
-            key={idx}
-            type="button"
-            onClick={() => handleDotClick(idx)}
-            className={cn('w-3 h-3 rounded-full border-none outline-none cursor-pointer', {
-              'bg-gray-200': selectedIndex !== idx,
-              'bg-gray-500': selectedIndex === idx,
-            })}
-            aria-label={`Go to slide ${idx + 1}`}
-          />
-        ))}
-      </div>
+      {multipleMedia && (
+        <div className="absolute flex items-center justify-center gap-3 mt-6 left-1/2 -translate-x-1/2 md:bottom-6 bottom-4 z-10">
+          {mediaList?.map((_, idx) => (
+            <button
+              key={idx}
+              type="button"
+              onClick={() => handleDotClick(idx)}
+              className={cn('w-3 h-3 rounded-full border-none outline-none cursor-pointer', {
+                'bg-gray-200': selectedIndex !== idx,
+                'bg-gray-500': selectedIndex === idx,
+              })}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   )
 }

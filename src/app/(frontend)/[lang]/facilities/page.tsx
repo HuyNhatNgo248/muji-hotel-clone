@@ -23,6 +23,12 @@ export default async function Page({ params }: Params) {
   const waFacility = dynamicZone?.find(
     (item) => item.blockType === 'facility' && item.blockName === 'WA',
   ) as FacilityBlock | undefined
+  const libraryFacility = dynamicZone?.find(
+    (item) => item.blockType === 'facility' && item.blockName === 'Library',
+  ) as FacilityBlock | undefined
+  const salonFacility = dynamicZone?.find(
+    (item) => item.blockType === 'facility' && item.blockName === 'Salon',
+  ) as FacilityBlock | undefined
 
   return (
     <div
@@ -34,6 +40,8 @@ export default async function Page({ params }: Params) {
       {hero && <Hero {...hero} />}
       {intro && <Intro {...intro} />}
       {waFacility && <Facility {...waFacility} />}
+      {libraryFacility && <Facility {...libraryFacility} />}
+      {salonFacility && <Facility {...salonFacility} />}
     </div>
   )
 }
