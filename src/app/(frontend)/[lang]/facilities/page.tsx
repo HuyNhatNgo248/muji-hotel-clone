@@ -6,6 +6,7 @@ import Hero from './_components/hero'
 import Intro from './_components/intro'
 import Facility from '@/components/organisms/facility'
 import { cn } from '@/lib/utils'
+import FadeIn from '@/components/animation/fade-in'
 
 export default async function Page({ params }: Params) {
   const { lang } = await params
@@ -33,7 +34,9 @@ export default async function Page({ params }: Params) {
 
       {facilities &&
         facilities?.map((facility, index) => (
-          <Facility key={`${facility.id}-${index}`} {...facility} />
+          <FadeIn key={`${facility.id}-${index}`}>
+            <Facility {...facility} />
+          </FadeIn>
         ))}
     </div>
   )
