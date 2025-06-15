@@ -8,6 +8,15 @@ export function middleware(request: NextRequest) {
   // Exclude payload admin routes
   if (pathname.includes('/admin')) return
 
+  // Exclude static files (e.g., favicon.ico, robots.txt, etc.)
+  if (
+    /^\/(favicon\.ico|robots\.txt|sitemap\.xml|apple-touch-icon.*|android-chrome.*|mstile.*|browserconfig\.xml|manifest\.json)$/i.test(
+      pathname,
+    )
+  ) {
+    return
+  }
+
   // Check if the pathname already includes a locale
   const pathnameHasLocale = LOCALES.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
