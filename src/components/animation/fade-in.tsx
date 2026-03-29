@@ -2,9 +2,11 @@
 
 import { motion, HTMLMotionProps } from 'motion/react'
 
-const fadeInVariants = {
+import type { Variants } from 'motion/react'
+
+const fadeInVariants: Variants = {
   hidden: { opacity: 0, y: 50 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: 'easeOut' } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
 }
 
 interface FadeInProps extends HTMLMotionProps<'div'> {
