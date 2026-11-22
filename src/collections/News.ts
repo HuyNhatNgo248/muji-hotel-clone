@@ -1,7 +1,12 @@
 import type { CollectionConfig } from 'payload'
+import { revalidateAfterChange, revalidateAfterDelete } from './_hooks/revalidate'
 
 export const News: CollectionConfig = {
   slug: 'news',
+  hooks: {
+    afterChange: [revalidateAfterChange],
+    afterDelete: [revalidateAfterDelete],
+  },
   access: {
     read: () => true,
   },

@@ -6,6 +6,7 @@ import type { Media } from '@/payload-types'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
+import { MEDIA_BASE_URL } from '@/components/shared/payload-media'
 
 interface PayloadRichTextProps {
   data: SerializedEditorState
@@ -34,10 +35,11 @@ const PayloadRichText: React.FC<PayloadRichTextProps> = ({ data, classNames }) =
 
       return (
         <Image
-          src={media.url}
+          src={`${MEDIA_BASE_URL || ''}${media.url}`}
           alt={media.alt || 'Uploaded image'}
           width={media.width || 800}
           height={media.height || 600}
+          sizes="100vw"
           className={cn('mx-auto', classNames?.image)}
         />
       )

@@ -18,21 +18,8 @@ const Logo: React.FC<LogoProps> = ({
   orientation = 'horizontal',
   variant = 'lg',
 }) => {
-  let Tag: keyof React.JSX.IntrinsicElements
-
-  switch (variant) {
-    case 'lg':
-      Tag = 'h1'
-      break
-    case 'md':
-      Tag = 'h2'
-      break
-    case 'sm':
-      Tag = 'h3'
-      break
-    default:
-      Tag = 'h1'
-  }
+  // Only the large home-page logo is the page heading; nav/footer/news logos are decorative text
+  const Tag: keyof React.JSX.IntrinsicElements = variant === 'lg' ? 'h1' : 'span'
 
   return (
     <div
@@ -61,7 +48,7 @@ const Logo: React.FC<LogoProps> = ({
         </Tag>
       )}
       {branchName && (
-        <Tag
+        <span
           className={cn(
             {
               'text-base font-light tracking-widest': variant === 'xs', // Add extra-small shadow
@@ -81,7 +68,7 @@ const Logo: React.FC<LogoProps> = ({
           )}
         >
           {branchName}
-        </Tag>
+        </span>
       )}
     </div>
   )

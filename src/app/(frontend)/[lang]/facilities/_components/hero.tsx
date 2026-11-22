@@ -1,8 +1,8 @@
 'use client'
 import { HeroBlock, Media } from '@/payload-types'
 import { cn } from '@/lib/utils'
-import { useEffect, useState } from 'react'
-import useCompHeight from '@/hooks/use-comp-height'
+import { getImageProps } from 'next/image'
+import { motion, useScroll, useTransform } from 'motion/react'
 import { MEDIA_BASE_URL } from '@/components/shared/payload-media'
 
 interface HeroProps extends HeroBlock {
@@ -10,45 +10,53 @@ interface HeroProps extends HeroBlock {
 }
 
 const Hero: React.FC<HeroProps> = ({ className, layout }) => {
-  const [offsetY, setOffsetY] = useState(0)
-  const { compHeight } = useCompHeight('navigation-menu')
+  const { scrollY } = useScroll()
+  const parallaxY = useTransform(scrollY, (y) => y * 0.5) // Parallax effect, no re-render per scroll
 
-  useEffect(() => {
-    const handleScroll = () => setOffsetY(window.scrollY)
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  // Get image URL
   const mediaList = layout?.find((item) => item.blockType === 'media-list')?.mediaList || []
-  const lgImageUrl = (mediaList[0]?.media as Media)?.url
-  const smImageUrl = (mediaList[1]?.media as Media)?.url
+  const lgMedia = (mediaList[0]?.media as Media | undefined) ?? undefined
+  const smMedia = (mediaList[1]?.media as Media | undefined) ?? lgMedia
+  const desktop = lgMedia?.url ? lgMedia : smMedia
+  const mobile = smMedia?.url ? smMedia : lgMedia
+
+  // One <picture>: the browser downloads only the image for the current breakpoint
+  const imageProps = (media: Media) =>
+    getImageProps({
+      src: `${MEDIA_BASE_URL || ''}${media.url}`,
+      alt: '',
+      fill: true,
+      sizes: '100vw',
+      loading: 'eager',
+      fetchPriority: 'high',
+    }).props
 
   return (
-    <>
-      <div
-        className={cn(
-          'relative w-full h-[560px] lg:flex items-center justify-center bg-cover bg-center bg-no-repeat hidden',
-          className,
-        )}
-        style={{
-          backgroundImage: lgImageUrl ? `url(${MEDIA_BASE_URL}${lgImageUrl})` : undefined,
-          backgroundPositionY: `${offsetY * 0.5 - 100}px`, // Parallax effect
-          marginTop: `-${compHeight}px`, // Adjust for navigation menu height
-        }}
-      />
-      <div
-        className={cn(
-          'relative w-full h-[450px] flex items-center justify-center bg-cover bg-center bg-no-repeat lg:hidden',
-          className,
-        )}
-        style={{
-          backgroundImage: smImageUrl ? `url(${MEDIA_BASE_URL}${smImageUrl})` : undefined,
-          backgroundPositionY: `${offsetY * 0.5}px`, // Parallax effect
-          marginTop: `-${compHeight}px`, // Adjust for navigation menu height
-        }}
-      />
-    </>
+    <div
+      className={cn(
+        '@container relative w-full overflow-hidden h-[450px] lg:h-[560px] -mt-[var(--nav-h)]', // Slide under the navigation menu
+        className,
+      )}
+      style={
+        {
+          // height/width of each image, to size the parallax layer like `background-size: cover`
+          '--ar-sm': (mobile?.height || 2) / (mobile?.width || 3),
+          '--ar-lg': (desktop?.height || 2) / (desktop?.width || 3),
+        } as React.CSSProperties
+      }
+    >
+      {desktop?.url && mobile?.url && (
+        <motion.div
+          className="absolute inset-x-0 top-0 lg:-top-[100px] h-[max(100%,calc(100cqw*var(--ar-sm)))] lg:h-[max(100%,calc(100cqw*var(--ar-lg)))]"
+          style={{ y: parallaxY }}
+        >
+          <picture>
+            <source media="(min-width: 1024px)" srcSet={imageProps(desktop).srcSet} sizes="100vw" />
+            {/* eslint-disable-next-line jsx-a11y/alt-text -- alt comes from getImageProps */}
+            <img {...imageProps(mobile)} className="object-cover" />
+          </picture>
+        </motion.div>
+      )}
+    </div>
   )
 }
 

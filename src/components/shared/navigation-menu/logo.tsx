@@ -5,6 +5,7 @@ import useDisplayLogoStore from '@/hooks/use-display-logo'
 import LogoComp from '@/components/organisms/logo'
 import { motion } from 'motion/react'
 import Link from 'next/link'
+import { useParams } from 'next/navigation'
 
 interface LogoProps {
   className?: string
@@ -14,6 +15,7 @@ interface LogoProps {
 
 const Logo: React.FC<LogoProps> = ({ display = false, variant = 'md', ...props }) => {
   const displayLogo = useDisplayLogoStore((state) => state.displayLogo)
+  const { lang } = useParams<{ lang: string }>()
 
   if (!displayLogo && !display) return null
 
@@ -26,7 +28,7 @@ const Logo: React.FC<LogoProps> = ({ display = false, variant = 'md', ...props }
         ease: 'easeOut', // Smooth easing
       }}
     >
-      <Link href="/">
+      <Link href={`/${lang}`}>
         <LogoComp
           {...props}
           variant={variant}

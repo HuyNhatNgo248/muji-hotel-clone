@@ -7,6 +7,8 @@ import { MEDIA_BASE_URL } from '.'
 interface PayloadImageProps extends Media {
   className?: string
   priority?: boolean
+  // Rendered width hints; without them the browser fetches the full-resolution file
+  sizes?: string
 }
 
 const PayloadImage: React.FC<PayloadImageProps> = ({
@@ -16,6 +18,7 @@ const PayloadImage: React.FC<PayloadImageProps> = ({
   width,
   height,
   priority = false,
+  sizes = '100vw',
 }) => {
   if (!url || !alt || !width || !height) return null
 
@@ -25,8 +28,9 @@ const PayloadImage: React.FC<PayloadImageProps> = ({
       alt={alt}
       width={width}
       height={height}
-      className={cn('w-full h-full object-fit', className)}
-      priority={priority}
+      sizes={sizes}
+      className={cn('w-full h-full', className)}
+      preload={priority}
     />
   )
 }

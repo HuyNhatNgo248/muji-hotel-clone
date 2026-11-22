@@ -1,4 +1,3 @@
-'use client'
 import { SocialMediaBlock } from '@/payload-types'
 
 import { cn } from '@/lib/utils'
@@ -24,6 +23,8 @@ const SocialMedia: React.FC<SocialMediaProps> = ({ classNames, title, socialMedi
             key={`${item.id}-${index}`}
             href={item.url || '/'}
             target={item.openInNewTab ? '_blank' : '_self'}
+            rel={item.openInNewTab ? 'noopener noreferrer' : undefined}
+            aria-label={item.iconField?.split('/')[1]?.replace(/^Lu/, '')} // icon-only link needs a name
           >
             {item.iconField && (
               <Icon className={cn('size-6', classNames?.icon)} path={item.iconField} />

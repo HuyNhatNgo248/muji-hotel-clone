@@ -16,7 +16,13 @@ interface FadeInProps extends HTMLMotionProps<'div'> {
 
 const FadeIn: React.FC<FadeInProps> = ({ children, ...props }) => {
   return (
-    <motion.div initial="hidden" whileInView="visible" variants={fadeInVariants} {...props}>
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      variants={fadeInVariants}
+      {...props}
+    >
       {children}
     </motion.div>
   )

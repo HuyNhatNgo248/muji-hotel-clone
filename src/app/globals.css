@@ -2,7 +2,18 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --font-sans: var(--font-roboto), 'sans-serif';
+  --font-sans: var(--font-roboto), sans-serif;
+}
+
+/* Sticky nav height, kept exact by NavigationMenu; defaults match its rendered size so heroes don't shift on load */
+:root {
+  --nav-h: 64px;
+}
+
+@media (min-width: 64rem) {
+  :root {
+    --nav-h: 136px;
+  }
 }
 
 .w-container {

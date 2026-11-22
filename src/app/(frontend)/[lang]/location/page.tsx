@@ -1,5 +1,12 @@
 import { Params } from '@/types'
 import { getDictionary } from '../dictionaries'
+import { pageMetadata } from '@/lib/metadata'
+
+export async function generateMetadata({ params }: Params) {
+  const { lang } = await params
+  const dictionary = await getDictionary(lang)
+  return pageMetadata(lang, '/location', dictionary['location']['location'])
+}
 
 export default async function Page({ params }: Params) {
   const { lang } = await params
@@ -9,9 +16,9 @@ export default async function Page({ params }: Params) {
   return (
     <div className="py-container-sm">
       <div className="mx-auto lg:w-[60%] w-[90%]">
-        <h2 className="text-4xl font-semibold mb-16 capitalize">
+        <h1 className="text-4xl font-semibold mb-16 capitalize">
           {dictionary['location']['location']}
-        </h2>
+        </h1>
 
         <div className="relative w-full lg:h-[600px] md:h-[450px] min-h-[300px]">
           <iframe

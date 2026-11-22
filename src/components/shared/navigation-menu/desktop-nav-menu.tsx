@@ -12,6 +12,7 @@ import { motion } from 'motion/react'
 interface DesktopNavMenuProps {
   className?: string
   dictionary: Dictionary
+  lang: string
   displayLogo?: boolean
 }
 
@@ -44,7 +45,12 @@ const HoverLink: React.FC<{
   )
 }
 
-const DesktopNavMenu: React.FC<DesktopNavMenuProps> = ({ className, dictionary, displayLogo }) => {
+const DesktopNavMenu: React.FC<DesktopNavMenuProps> = ({
+  className,
+  dictionary,
+  lang,
+  displayLogo,
+}) => {
   const pathname = usePathname()
 
   return (
@@ -54,36 +60,33 @@ const DesktopNavMenu: React.FC<DesktopNavMenuProps> = ({ className, dictionary, 
       </div>
       <div className={'flex flex-col items-end gap-6'}>
         <div className="flex gap-4">
-          <Button variant="outline" className="border-1 rounded-xl">
-            <Link href={'https://hotel.muji.com/ginza/ja/confirm/'} className="uppercase">
+          <Button asChild variant="outline" className="border-1 rounded-xl uppercase">
+            <Link href={'https://hotel.muji.com/ginza/ja/confirm/'}>
               {dictionary['navigation-menu']['find-reservation']}
             </Link>
           </Button>
-          <Button variant="default" className="bg-white text-gray-700 rounded-xl">
-            <Link
-              href={'https://go-mujihotelginza.reservation.jp/ja/searchInput'}
-              className="uppercase"
-            >
+          <Button asChild variant="default" className="bg-white text-gray-700 rounded-xl uppercase">
+            <Link href={'https://go-mujihotelginza.reservation.jp/ja/searchInput'}>
               {dictionary['navigation-menu']['reservations']}
             </Link>
           </Button>
         </div>
 
         <div className="flex gap-10">
-          <HoverLink href={'/news'} isActive={pathname.includes('/news')}>
+          <HoverLink href={`/${lang}/news`} isActive={pathname.includes('/news')}>
             {dictionary['navigation-menu']['news']}
           </HoverLink>
 
-          <HoverLink href={`/location`} isActive={pathname.includes('/location')}>
+          <HoverLink href={`/${lang}/location`} isActive={pathname.includes('/location')}>
             {dictionary['navigation-menu']['location']}
           </HoverLink>
-          <HoverLink href={'/rooms'} isActive={pathname.includes('/rooms')}>
+          <HoverLink href={`https://hotel.muji.com/ginza/${lang}/rooms/`} isActive={false}>
             {dictionary['navigation-menu']['rooms']}
           </HoverLink>
-          <HoverLink href={'/facilities'} isActive={pathname.includes('/facilities')}>
+          <HoverLink href={`/${lang}/facilities`} isActive={pathname.includes('/facilities')}>
             {dictionary['navigation-menu']['facilities']}
           </HoverLink>
-          <HoverLink href={'/contact'} isActive={pathname.includes('/contact')}>
+          <HoverLink href={`/${lang}/contact`} isActive={pathname.includes('/contact')}>
             {dictionary['navigation-menu']['contact-us']}
           </HoverLink>
 

@@ -3,11 +3,16 @@ import { ServiceIntroBlock } from '@/payload-types'
 import { DynamicZone } from '@/types'
 
 import { fetchPage } from '@/lib/api'
+import { pageMetadata } from '@/lib/metadata'
 import { notFound } from 'next/navigation'
 import Hero from './_components/hero'
 import ServiceIntro from './_components/service-intro'
 import Separator from './_components/separator'
 import SocialMedia from '@/components/organisms/social-media'
+
+export async function generateMetadata({ params }: Params) {
+  return pageMetadata((await params).lang, '')
+}
 
 export default async function Page({ params }: Params) {
   const { lang } = await params
@@ -39,13 +44,16 @@ export default async function Page({ params }: Params) {
 
   return (
     <div>
-      {hero && <Hero {...hero} />}
+      {hero && <Hero {...hero} lang={lang} />}
       <div className="flex flex-col justify-center lg:gap-40 md:gap-32 gap-20 py-container-sm">
-        {accessIntro && <ServiceIntro {...accessIntro} classNames={{ description: 'w-full' }} />}
+        {accessIntro && (
+          <ServiceIntro {...accessIntro} lang={lang} classNames={{ description: 'w-full' }} />
+        )}
 
         {roomsIntro && (
           <ServiceIntro
             {...roomsIntro}
+            lang={lang}
             classNames={{ description: 'xl:w-[40%] lg:w-[50%] md:w-[65%] w-4/5' }}
           />
         )}
@@ -53,15 +61,17 @@ export default async function Page({ params }: Params) {
         {facilitiesIntro && (
           <ServiceIntro
             {...facilitiesIntro}
+            lang={lang}
             classNames={{ description: 'xl:w-[40%] lg:w-[50%] md:w-[65%] w-4/5' }}
           />
         )}
 
         <div>
-          {separator && <Separator {...separator} className="mb-8" />}
+          {separator && <Separator {...separator} lang={lang} className="mb-8" />}
           {mujiBase && (
             <ServiceIntro
               {...mujiBase}
+              lang={lang}
               classNames={{ description: 'xl:w-[40%] lg:w-[50%] md:w-[65%] w-4/5' }}
             />
           )}
@@ -70,6 +80,7 @@ export default async function Page({ params }: Params) {
         {mujiRoom && (
           <ServiceIntro
             {...mujiRoom}
+            lang={lang}
             classNames={{ description: 'xl:w-[40%] lg:w-[50%] md:w-[65%] w-4/5' }}
           />
         )}

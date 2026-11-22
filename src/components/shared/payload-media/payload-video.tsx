@@ -19,7 +19,7 @@ const PayloadVideo: React.FC<PayloadVideoProps> = ({ url, className }) => {
         muted
         playsInline
         loop
-        className={cn('w-full h-full absolute inset-0 object-cover')}
+        className="w-full h-full object-cover"
       />
     </div>
   )

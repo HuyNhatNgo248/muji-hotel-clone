@@ -1,12 +1,20 @@
 import { Params, DynamicZone } from '@/types'
 
 import { fetchPage } from '@/lib/api'
+import { pageMetadata } from '@/lib/metadata'
+import { getDictionary } from '../dictionaries'
 import { notFound } from 'next/navigation'
 import Hero from './_components/hero'
 import Intro from './_components/intro'
 import Facility from '@/components/organisms/facility'
 import { cn } from '@/lib/utils'
 import FadeIn from '@/components/animation/fade-in'
+
+export async function generateMetadata({ params }: Params) {
+  const { lang } = await params
+  const dictionary = await getDictionary(lang)
+  return pageMetadata(lang, '/facilities', dictionary['navigation-menu']['facilities'])
+}
 
 export default async function Page({ params }: Params) {
   const { lang } = await params
@@ -35,7 +43,7 @@ export default async function Page({ params }: Params) {
       {facilities &&
         facilities?.map((facility, index) => (
           <FadeIn key={`${facility.id}-${index}`}>
-            <Facility {...facility} />
+            <Facility {...facility} lang={lang} />
           </FadeIn>
         ))}
     </div>

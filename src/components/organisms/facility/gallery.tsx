@@ -64,7 +64,11 @@ const Gallery: React.FC<GalleryProps> = ({ className, mediaList }) => {
                 className={'h-full w-full flex items-center justify-center pl-0'}
               >
                 <div className="w-full h-full">
-                  <PayloadMedia {...(item.media as Media)} className="xl:object-cover" />
+                  <PayloadMedia
+                    {...(item.media as Media)}
+                    className="xl:object-cover"
+                    sizes="(min-width: 1440px) 940px, (min-width: 1280px) calc(100vw - 500px), 100vw"
+                  />
                 </div>
               </CarouselItem>
             )

@@ -5,6 +5,7 @@ import PayloadVideo from './payload-video'
 export interface PayloadMediaProps extends Media {
   className?: string
   priority?: boolean
+  sizes?: string
 }
 
 export const MEDIA_BASE_URL =

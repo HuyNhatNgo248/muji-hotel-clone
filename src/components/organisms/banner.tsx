@@ -2,20 +2,25 @@ import type { BannerBlock } from '@/payload-types'
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
 
 import { cn } from '@/lib/utils'
+import { localizeHref } from '@/lib/config'
 import Link from 'next/link'
 import PayloadRichText from '@/components/shared/payload-richtext'
 
 interface BannerProps extends BannerBlock {
   className?: string
+  lang?: string
 }
 
-const Banner: React.FC<BannerProps> = ({ className, description, url, openInNewTab }) => {
+const Banner: React.FC<BannerProps> = ({ className, description, url, openInNewTab, lang }) => {
   const content = <PayloadRichText data={description as SerializedEditorState} />
 
   return (
     <div className={cn('py-4 w-full flex justify-center items-center bg-black/30', className)}>
       {url ? (
-        <Link href={url} target={openInNewTab ? '_blank' : '_self'}>
+        <Link
+          href={lang ? localizeHref(url, lang) : url}
+          target={openInNewTab ? '_blank' : '_self'}
+        >
           {content}
         </Link>
       ) : (

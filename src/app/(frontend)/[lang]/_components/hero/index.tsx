@@ -1,102 +1,61 @@
-'use client'
-
-import { HeroBlock } from '@/payload-types'
+import type { HeroBlock, Media } from '@/payload-types'
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
+import type { MujiLocale } from '@/types'
 
 import { cn } from '@/lib/utils'
 import BackgroundParallax from './background-parallax'
+import HeroScreen from './hero-screen'
 import Logo from '@/components/organisms/logo'
 import Banner from '@/components/organisms/banner'
 import PayloadRichText from '@/components/shared/payload-richtext'
-import { useParams } from 'next/navigation'
-import { LuChevronDown } from 'react-icons/lu'
-import { motion, useInView } from 'motion/react'
-import { useRef, useEffect } from 'react'
-import useDisplayLogoStore from '@/hooks/use-display-logo'
-import useCompHeight from '@/hooks/use-comp-height'
 
 interface HeroProps extends HeroBlock {
   className?: string
+  lang: MujiLocale
 }
 
-const Hero: React.FC<HeroProps> = ({ className, description, layout }) => {
-  const params = useParams()
-  const richTextRef = useRef<HTMLDivElement>(null)
-  const logoRef = useRef<HTMLDivElement>(null)
-  const setDisplayLogo = useDisplayLogoStore((state) => state.setDisplayLogo)
-  const { compHeight } = useCompHeight('navigation-menu')
-  const isLogoInView = useInView(logoRef)
-
-  const mediaList = layout?.find((item) => item.blockType === 'media-list')?.mediaList || null
+// Server component: rich text, banner and logo render here; only the interactive shells are client code
+const Hero: React.FC<HeroProps> = ({ className, description, layout, lang }) => {
+  const mediaList = layout?.find((item) => item.blockType === 'media-list')?.mediaList || []
   const logo = layout?.find((item) => item.blockType === 'logo')
   const banner = layout?.find((item) => item.blockType === 'banner')
 
-  const handleScroll = () => {
-    if (!richTextRef.current) return
-
-    const topOffset = 10
-    const richTextPosition = richTextRef.current.offsetTop // Get the top position of the rich text
-    const scrollToPosition = richTextPosition - topOffset // Subtract the offset to stop at the desired position
-
-    window.scrollTo({
-      top: scrollToPosition,
-      behavior: 'smooth', // Smooth scrolling
-    })
-  }
-
-  useEffect(() => {
-    if (!logoRef.current) return
-
-    setDisplayLogo(!isLogoInView)
-  }, [isLogoInView, setDisplayLogo])
+  const slides = mediaList
+    .map((item) => item.media as Media | undefined)
+    .filter((media): media is Media & { url: string } => Boolean(media?.url))
+    .map(({ id, url }) => ({ id, url }))
 
   return (
-    <>
-      <BackgroundParallax mediaList={mediaList} className={cn('text-white', className)}>
-        <div
-          className="relative flex flex-col items-center justify-between"
-          style={{ height: `calc(100vh - ${compHeight}px)` }}
-        >
-          {banner && <Banner {...banner} className="text-sm tracking-wide font-semibold" />}
+    <BackgroundParallax slides={slides} className={cn('text-white', className)}>
+      <HeroScreen
+        scrollTargetId="hero-description"
+        banner={
+          banner && (
+            <Banner {...banner} lang={lang} className="text-sm tracking-wide font-semibold" />
+          )
+        }
+        logo={
+          logo && (
+            <Logo
+              {...logo}
+              variant="lg"
+              orientation="vertical"
+              classNames={{ container: 'pb-30' }}
+            />
+          )
+        }
+      />
 
-          <div ref={logoRef}>
-            {logo && (
-              <Logo
-                {...logo}
-                variant="lg"
-                orientation="vertical"
-                classNames={{ container: 'pb-30' }}
-              />
-            )}
-          </div>
-
-          <motion.button
-            onClick={handleScroll}
-            className="cursor-pointer"
-            animate={{
-              y: [0, -10, 0], // Move up by 10px, then back to the original position
-            }}
-            transition={{
-              duration: 1.5, // Duration of one cycle
-              repeat: Infinity, // Repeat the animation infinitely
-              ease: 'easeInOut', // Smooth easing
-            }}
-          >
-            <LuChevronDown className="text-white size-8" />
-          </motion.button>
-        </div>
-
-        <div
-          ref={richTextRef}
-          className={cn('mx-auto xl:w-1/3 lg:w-1/2 w-4/5 text-center text-lg my-10', {
-            'tracking-[0.30em] leading-10': params.lang === 'ja',
-            'tracking-widest leading-8': params.lang === 'en',
-          })}
-        >
-          <PayloadRichText data={description as SerializedEditorState} />
-        </div>
-      </BackgroundParallax>
-    </>
+      <div
+        id="hero-description"
+        className={cn('mx-auto xl:w-1/3 lg:w-1/2 w-4/5 text-center text-lg my-10', {
+          'tracking-[0.30em] leading-10': lang === 'ja',
+          'tracking-widest leading-8': lang === 'en',
+        })}
+      >
+        <PayloadRichText data={description as SerializedEditorState} />
+      </div>
+    </BackgroundParallax>
   )
 }
 

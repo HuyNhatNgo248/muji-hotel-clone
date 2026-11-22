@@ -16,10 +16,6 @@ const nextConfig = {
         hostname: 'q4aw4kksczq5nsez.public.blob.vercel-storage.com', // Your deployed domain
         pathname: '/api/media/file/**',
       },
-      {
-        protocol: 'http',
-        hostname: '*', // Allow images from all HTTP domains
-      },
     ],
   },
 }

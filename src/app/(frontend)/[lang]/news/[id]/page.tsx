@@ -7,6 +7,16 @@ import PayloadRichText from '@/components/shared/payload-richtext'
 import { getDictionary } from '../../dictionaries'
 import { notFound } from 'next/navigation'
 import { formatDate } from '@/lib/utils'
+import { pageMetadata } from '@/lib/metadata'
+
+// No articles prerendered at build; each one is rendered on first visit, then served from cache
+export const generateStaticParams = async () => []
+
+export async function generateMetadata({ params }: Params) {
+  const { lang, id } = await params
+  const news = id ? ((await fetchById('news', id, lang, 2)) as News | null) : null
+  return pageMetadata(lang, `/news/${id}`, news?.title)
+}
 
 export default async function Page({ params }: Params) {
   const { lang, id } = await params
@@ -25,9 +35,9 @@ export default async function Page({ params }: Params) {
     <div className="w-container py-container-sm">
       <div className="flex flex-col items-center">
         <div className="flex flex-col gap-8 xl:w-1/2 lg:w-2/3 md:w-[80%] w-full text-xl">
-          <h2 className="text-4xl font-semibold mb-8 capitalize">{dictionary['news']['news']}</h2>
+          <p className="text-4xl font-semibold mb-8 capitalize">{dictionary['news']['news']}</p>
           <div>
-            {title && <p className="mb-4 text-2xl font-semibold">{title}</p>}
+            {title && <h1 className="mb-4 text-2xl font-semibold">{title}</h1>}
             {publishedDate && <p className="text-sm text-gray-500">{formatDate(publishedDate)}</p>}
           </div>
 

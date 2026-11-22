@@ -1,95 +1,89 @@
 'use client'
 
-import { MediaBlock, Media } from '@/payload-types'
-
+import Image from 'next/image'
 import { cn } from '@/lib/utils'
 import { useState, useEffect, useRef } from 'react'
-import { AnimatePresence, motion } from 'motion/react'
+import { motion, useScroll, useTransform, useMotionValueEvent } from 'motion/react'
 import { MEDIA_BASE_URL } from '@/components/shared/payload-media'
 
 interface BackgroundParallaxProps {
-  mediaList: MediaBlock[] | null
+  slides: { id: string; url: string }[]
   className?: string
   children: React.ReactNode
 }
 
-const BackgroundParallax: React.FC<BackgroundParallaxProps> = ({
-  mediaList,
-  className,
-  children,
-}) => {
-  const [index, setIndex] = useState<number>(0)
+const BackgroundParallax: React.FC<BackgroundParallaxProps> = ({ slides, className, children }) => {
+  // `reach`: highest slide mounted so far. Mount one ahead so it is downloaded before it fades in.
+  // `prev` stays opaque underneath while the current slide fades in on top (no see-through mid-fade).
+  const [{ index, prev, reach }, setSlide] = useState({ index: 0, prev: -1, reach: 1 })
   const [isFixed, setIsFixed] = useState<boolean>(true)
-  const [overlayOpacity, setOverlayOpacity] = useState<number>(0) // State for overlay opacity
   const contentRef = useRef<HTMLDivElement>(null)
+  const { scrollY } = useScroll()
 
   useEffect(() => {
-    if (!mediaList || mediaList.length === 0) return
+    if (slides.length < 2) return
 
+    let fadeDone: ReturnType<typeof setTimeout> | undefined
     const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % mediaList.length)
+      setSlide(({ index, reach }) => {
+        const next = (index + 1) % slides.length
+        return { index: next, prev: index, reach: Math.max(reach, next + 1) }
+      })
+      // Once the new slide is opaque, the old one fades out unseen underneath, ready to fade in again later
+      fadeDone = setTimeout(() => setSlide((slide) => ({ ...slide, prev: -1 })), 2000)
     }, 7000)
 
-    return () => clearInterval(interval)
-  }, [mediaList])
-
-  // Calculate `isFixed` and `overlayOpacity` on initial render and on scroll
-  useEffect(() => {
-    const calculateState = () => {
-      if (!contentRef.current) return
-      const rect = contentRef.current.getBoundingClientRect()
-      setIsFixed(rect.bottom > window.innerHeight)
-
-      // Calculate opacity based on scroll position
-      const scrollTop = window.scrollY
-      const windowHeight = window.innerHeight
-      const maxScroll = contentRef.current.offsetHeight - windowHeight
-      const opacity = Math.min(scrollTop / maxScroll, 0.5) // Max opacity of 0.5
-      setOverlayOpacity(opacity)
+    return () => {
+      clearInterval(interval)
+      clearTimeout(fadeDone)
     }
+  }, [slides.length])
 
-    // Run on initial render
-    calculateState()
+  // Motion values update the overlay without re-rendering on every scroll event
+  const overlayOpacity = useTransform(scrollY, (y) => {
+    const content = contentRef.current
+    if (!content) return 0
+    return Math.min(y / (content.offsetHeight - window.innerHeight), 0.5) // Max opacity of 0.5
+  })
 
-    // Add scroll event listener
-    window.addEventListener('scroll', calculateState, { passive: true })
-    return () => window.removeEventListener('scroll', calculateState)
-  }, [])
+  useMotionValueEvent(scrollY, 'change', () => {
+    if (!contentRef.current) return
+    setIsFixed(contentRef.current.getBoundingClientRect().bottom > window.innerHeight)
+  })
 
-  const bgImage = (mediaList?.[index]?.media as Media | undefined)?.url
+  const layerClassName = isFixed
+    ? 'fixed inset-0 w-full h-screen pointer-events-none'
+    : 'absolute top-auto bottom-0 left-0 w-full h-screen pointer-events-none'
 
   return (
     <div className={cn('relative w-full min-h-[200vh] overflow-x-hidden', className)}>
       {/* Crossfading, fixed/absolute background */}
-      <AnimatePresence>
-        <motion.div
-          key={bgImage}
-          className={cn(
-            isFixed
-              ? 'fixed inset-0 w-full h-screen bg-cover bg-center pointer-events-none z-0'
-              : 'absolute top-auto bottom-0 left-0 w-full h-screen bg-cover bg-center pointer-events-none z-0',
-          )}
-          style={{
-            backgroundImage: `url(${MEDIA_BASE_URL}${bgImage})`,
-          }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 2, ease: 'easeInOut' }}
-        />
-      </AnimatePresence>
+      <div className={cn(layerClassName, 'z-0')}>
+        {slides.map(
+          (slide, i) =>
+            i <= reach && (
+              <Image
+                key={slide.id}
+                src={`${MEDIA_BASE_URL || ''}${slide.url}`}
+                alt=""
+                fill
+                sizes="100vw"
+                preload={i === 0}
+                className={cn(
+                  'object-cover transition-opacity duration-[2000ms] ease-in-out',
+                  i === index && 'opacity-100 z-10',
+                  i === prev && 'opacity-100',
+                  i !== index && i !== prev && 'opacity-0',
+                )}
+              />
+            ),
+        )}
+      </div>
 
       {/* Darkening overlay */}
-      <div
-        className={cn(
-          isFixed
-            ? 'fixed inset-0 w-full h-screen bg-black pointer-events-none z-10'
-            : 'absolute top-auto bottom-0 left-0 w-full h-screen bg-black pointer-events-none z-10',
-        )}
-        style={{
-          opacity: overlayOpacity,
-          transition: 'opacity 0.5s ease-in-out', // Smooth transition for overlay
-        }}
+      <motion.div
+        className={cn(layerClassName, 'z-10 bg-black')}
+        style={{ opacity: overlayOpacity }}
       />
 
       {/* Scrollable content */}

@@ -4,6 +4,7 @@ import { Button as ShadcnButton } from '@/components/ui/button'
 import Icon from './icon'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
+import { localizeHref } from '@/lib/config'
 
 interface ButtonProps
   extends ButtonBlock,
@@ -14,6 +15,7 @@ interface ButtonProps
     text?: string
     link?: string
   }
+  lang?: string
 }
 
 export default function Button({
@@ -27,6 +29,7 @@ export default function Button({
   id,
   className,
   classNames,
+  lang,
   ...props
 }: ButtonProps) {
   const { blockName: _blockName, blockType: _blockType, ...buttonProps } = props
@@ -62,7 +65,7 @@ export default function Button({
   return (
     <>
       <Link
-        href={url}
+        href={lang ? localizeHref(url, lang) : url}
         passHref
         target={openInNewTab ? '_blank' : '_self'}
         rel={openInNewTab ? 'noopener noreferrer' : undefined}

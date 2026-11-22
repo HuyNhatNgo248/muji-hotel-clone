@@ -2,9 +2,16 @@ import { Params } from '@/types'
 import { DynamicZone } from '@/types'
 
 import { fetchPage } from '@/lib/api'
+import { pageMetadata } from '@/lib/metadata'
 import { notFound } from 'next/navigation'
 import Faq from '@/components/organisms/faq'
 import { getDictionary } from '../dictionaries'
+
+export async function generateMetadata({ params }: Params) {
+  const { lang } = await params
+  const dictionary = await getDictionary(lang)
+  return pageMetadata(lang, '/contact', dictionary['contact']['contact'])
+}
 
 export default async function Page({ params }: Params) {
   const { lang } = await params
@@ -22,9 +29,9 @@ export default async function Page({ params }: Params) {
   return (
     <div className="py-container-sm">
       <div className="xl:w-[64%] md:w-[80%] w-[90%] mx-auto">
-        <h2 className="text-4xl font-semibold mb-16 capitalize">
+        <h1 className="text-4xl font-semibold mb-16 capitalize">
           {dictionary['contact']['contact']}
-        </h2>
+        </h1>
         <div className="flex flex-col gap-12">
           {faqs?.map((faq, index) => <Faq key={`${faq.id}-${index}`} {...faq} />)}
         </div>

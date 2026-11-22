@@ -1,18 +1,19 @@
 import { cn } from '@/lib/utils'
 import Logo from '@/components/organisms/logo'
-import { Dictionary } from '@/types'
+import { Dictionary, MujiLocale } from '@/types'
 import Link from 'next/link'
 import SocialMedia from '@/components/organisms/social-media'
 
 interface FooterProps {
   className?: string
   dictionary: Dictionary
+  lang: MujiLocale
 }
 
-const Footer: React.FC<FooterProps> = ({ className, dictionary }) => {
+const Footer: React.FC<FooterProps> = ({ className, dictionary, lang }) => {
   return (
     <footer className={cn('bg-gray-100 py-20 flex flex-col gap-12', className)}>
-      <Link href="/">
+      <Link href={`/${lang}`}>
         <Logo
           orientation="horizontal"
           variant="sm"
@@ -40,7 +41,7 @@ const Footer: React.FC<FooterProps> = ({ className, dictionary }) => {
       />
 
       <div className="flex md:gap-8 gap-6 justify-center items-center md:flex-row flex-col">
-        <Link href="/">
+        <Link href={`/${lang}`}>
           <Logo
             orientation="horizontal"
             variant="sm"
@@ -53,7 +54,10 @@ const Footer: React.FC<FooterProps> = ({ className, dictionary }) => {
           />
         </Link>
 
-        <Link className="text-xs font-semibold" href="/policy">
+        <Link
+          className="text-xs font-semibold"
+          href={`https://hotel.muji.com/ginza/${lang}/policy/`}
+        >
           {dictionary['footer']['reservation-policy']}
         </Link>
 
