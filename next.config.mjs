@@ -1,9 +1,14 @@
 import { withPayload } from '@payloadcms/next/withPayload'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Your Next.js config here
   output: 'standalone',
+  turbopack: {
+    root: path.dirname(fileURLToPath(import.meta.url)),
+  },
   images: {
     remotePatterns: [
       {

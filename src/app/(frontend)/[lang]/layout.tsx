@@ -1,17 +1,12 @@
-import { Params } from '@/types'
+import type { MujiLocale } from '@/types'
 import NavigationMenu from '@/components/shared/navigation-menu'
 import Footer from '@/components/shared/footer'
 import { getDictionary } from './dictionaries'
 
-export default async function Layout({
-  children,
-  params,
-}: {
-  children: React.ReactNode
-} & Params) {
+export default async function Layout({ children, params }: LayoutProps<'/[lang]'>) {
   const { lang } = await params
 
-  const dictionary = await getDictionary(lang)
+  const dictionary = await getDictionary(lang as MujiLocale)
 
   return (
     <div>

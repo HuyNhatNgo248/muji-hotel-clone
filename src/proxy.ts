@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { LOCALES, DEFAULT_LOCALES } from './lib/config'
 import { MujiLocale } from './types'
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // Exclude payload admin routes
